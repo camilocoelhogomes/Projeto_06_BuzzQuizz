@@ -106,5 +106,32 @@ function renderQuizzCreationPage() {
     
     `
 }
+function renderQuizzPage() {
+    document.querySelector('.style').href = './styles/quizzPage.css'
+
+    document.querySelector('main').innerHTML = `
+    <div class="quizz-banner">
+    <img
+      src="https://images.ctfassets.net/usf1vwtuqyxm/7EsDSrJhr0pNwUNK8lrUwY/f8d7e5101de6dda8f46c0f94673087a9/HP-Hogwarts-39PHOTOBU17074_PHUP_HP.jpg"
+      alt="Hogwarts"
+    />
+    <div class="quizz-banner-cover">
+      <h1>O quão potterhead é você?</h1>
+    </div>
+  </div>
+  <div class="question-container">
+    <h1 class="question-title">
+      Em qual animal Olho-Tonto Moody transfigurou Malfoy?
+    </h1>
+    <ul class="answer-options">
+        <li class="answer-option"></li>
+        <li class="answer-option"></li>
+        <li class="answer-option"></li>
+        <li class="answer-option"></li>
+    </ul>
+  </div>
+    `
+}
 
 //renderQuizzListPage()
+//renderQuizzPage()
