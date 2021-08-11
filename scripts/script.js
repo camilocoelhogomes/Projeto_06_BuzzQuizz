@@ -1,6 +1,6 @@
 let allQuizzes;
 
-function renderAllQuizzes() {
+function quizzListRenderAllQuizzes() {
     let allQuizzesList = '';
 
     for (let i = 0.; i < allQuizzes.length; i++) {
@@ -20,14 +20,14 @@ function renderAllQuizzes() {
     document.querySelector('.all-quizzes-list').innerHTML = allQuizzesList;
 }
 
-function saveAllQuizzesAnswer(answer) {
+function quizzListSaveAllQuizzesAnswer(answer) {
     allQuizzes = answer.data;
-    renderAllQuizzes();
+    quizzListRenderAllQuizzes();
 }
 
-function getAllQuizzes() {
+function quizzListGetAllQuizzes() {
     let promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes');
-    promise.then(saveAllQuizzesAnswer);
+    promise.then(quizzListSaveAllQuizzesAnswer);
 }
 
 function renderQuizzListPage() {
@@ -61,7 +61,7 @@ function renderQuizzListPage() {
         </article>
     `
 
-    getAllQuizzes();
+    quizzListGetAllQuizzes();
 }
 
 renderQuizzListPage()
