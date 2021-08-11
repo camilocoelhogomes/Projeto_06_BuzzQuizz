@@ -45,7 +45,7 @@ function renderQuizzListPage() {
                 <h2 class="create-new-quizz-title">Você não criou nenhum quizz ainda :(</h2>
             </header>
 
-            <button class="create-new-quizz-button">Criar Quizz</button>
+            <button onclick="renderQuizzCreationPage()" class="create-new-quizz-button">Criar Quizz</button>
         
         </article>
 
