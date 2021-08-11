@@ -1,20 +1,3 @@
-.main-header{
-    width: 100%;
-    height: 69px;
-    background-color: #ec362d;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.main-title{
-    font-size: 37px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    color: #ffffff;
-}
-
 .create-new-quizz{
     margin: 31px 18px 0px 18px;
     height: 181px;
