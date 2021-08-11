@@ -3,6 +3,7 @@ main{
     height: 100vh;
 }
 
+<<<<<<< HEAD
 .main-header{
     width: 100%;
     height: 69px;
@@ -19,6 +20,8 @@ main{
     font-weight: bold;
     color: #ffffff;
 }
+=======
+>>>>>>> 157307be5e6cd9d7e5bd4ed1e27f10c2d79379bd
 .new-quizz-header{
     background-color: #FAFAFA;
     width: 100%;

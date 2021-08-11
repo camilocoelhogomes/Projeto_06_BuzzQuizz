@@ -32,12 +32,9 @@ function quizzListGetAllQuizzes() {
 
 function renderQuizzListPage() {
 
-    document.querySelector('.style').href = './styles/quizzList.css'
+    document.querySelector('.style-page').href = './styles/quizzList.css'
 
     document.querySelector('main').innerHTML = `
-        <header class="main-header">
-            <h1 class="main-title">BuzzQuizz</h1>
-        </header>
 
         <article class="create-new-quizz">
             
@@ -45,7 +42,7 @@ function renderQuizzListPage() {
                 <h2 class="create-new-quizz-title">Você não criou nenhum quizz ainda :(</h2>
             </header>
 
-            <button class="create-new-quizz-button">Criar Quizz</button>
+            <button onclick="renderQuizzCreationPage()" class="create-new-quizz-button">Criar Quizz</button>
         
         </article>
 
@@ -66,12 +63,9 @@ function renderQuizzListPage() {
 
 function renderQuizzCreationPage() {
 
-    document.querySelector('.style').href = './styles/quizzCreation.css'
+    document.querySelector('.style-page').href = './styles/quizzCreation.css'
 
     document.querySelector('main').innerHTML = `
-        <header class="main-header">
-            <h1 class="main-title">BuzzQuizz</h1>
-        </header>
 
         <article class='new-quizz-beggin'>
 
