@@ -22,3 +22,41 @@
   color: #fff;
   font-size: 19px;
 }
+.questions-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.question-container {
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+}
+.question-title {
+  width: 100%;
+  height: 89px;
+  background-color: #45a;
+  font-size: 19px;
+  color: #ffffff;
+  display: flex;
+  align-items:center;
+  text-align: center;
+}
+.answer-options {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size:13px;
+}
+.answer-option{
+  margin-top:12px;
+}
+.answer-option img{
+  width: 163px;
+  height: 113px;
+}
+.answer-option h3{
+  margin-top:5px;
+}
