@@ -63,6 +63,32 @@ function renderQuizzListPage() {
     quizzListGetAllQuizzes();
 }
 
+function renderQuizzCreationEndPage() {
+    document.querySelector('.style-page').href = './styles/quizzCreation.css'
+    document.querySelector('main').innerHTML = `
+        <header class="new-quizz-header">
+            <h2 class="new-quizz-title">Seu quizz está pronto!</h2>
+        </header>
+
+        <ul class="new-quizz-form">
+            <li class='single-quizz'>
+                <figure class='single-quizz-figure'>
+                    <img class='single-quizz-img' src="" alt="Imagem de Fundo do Quizz">
+                </figure>
+
+                <header class='single-quizz-header'>
+                    <h3 class='single-quizz-title'></h3>
+                </header>
+            </li>
+        </ul>
+        
+        <div class="buttons">
+            <button class="new-quizz-go-to-quizz">Acessar Quizz</button>
+            <button onclick="renderQuizzListPage()" class="new-quizz-go-to-home">Voltar para a Home</button>
+        </div>
+    `;
+}
+
 function renderQuizzCreationPage() {
 
     document.querySelector('.style-page').href = './styles/quizzCreation.css'
@@ -159,7 +185,7 @@ function renderQuizzCreationLevelPage() {
 
         </ul>
 
-        <button class="new-quizz-go-to-create-questions">Finalizar Quizz</button>
+        <button onclick="renderQuizzCreationEndPage()" class="new-quizz-go-to-create-questions">Finalizar Quizz</button>
     `;
 
     renderQuizzCreationLevelInputs()
@@ -240,7 +266,7 @@ function renderQuizzCreationQuestionsPage() {
             
         </ul>
 
-        <button class="new-quizz-go-to-create-questions">Prosseguir para criar Níveis</button>
+        <button onclick="renderQuizzCreationLevelPage()" class="new-quizz-go-to-create-questions">Prosseguir para criar Níveis</button>
         `
     renderQuizzCreationQuestionFields();
 }

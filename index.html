@@ -23,7 +23,25 @@
         <h1 class="main-title">BuzzQuizz</h1>
     </header>
     <main>
+        <header class="new-quizz-header">
+            <h2 class="new-quizz-title">Seu quizz está pronto!</h2>
+        </header>
 
+        <ul class="new-quizz-form">
+            <li class='single-quizz'>
+                <figure class='single-quizz-figure'>
+                    <img class='single-quizz-img' src="" alt="Imagem de Fundo do Quizz">
+                </figure>
+
+                <header class='single-quizz-header'>
+                    <h3 class='single-quizz-title'>${allQuizzes[i].title}</h3>
+                </header>
+            </li>
+        </ul>
+        <div class="buttons">
+            <button class="new-quizz-go-to-quizz">Acessar Quizz</button>
+            <button onclick="renderQuizzListPage()" class="new-quizz-go-to-home">Voltar para a Home</button>
+        </div>
 
     </main>
 

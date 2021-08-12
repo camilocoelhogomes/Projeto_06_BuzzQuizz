@@ -110,3 +110,37 @@ main{
 .quizz-level-description{
     height: 177px;
 }
+
+.buttons{
+    margin: 34px 0 0 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-quizz-go-to-quizz {
+    height: 54px;
+    width: 220px;
+    background-color: #ec362d;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    margin: 0px 0px 9px 0;
+}
+
+.new-quizz-go-to-home {
+    height: 54px;
+    width: 220px;
+    background-color: #ffffff;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+    color: #818181;
+    border: none;
+    border-radius: 15px;
+    margin: 0px 0px 9px 0;
+
+}
