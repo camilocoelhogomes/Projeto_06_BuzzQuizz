@@ -111,6 +111,60 @@ function quizzCreationQuestionToggleQuestion(element) {
     element.parentNode.parentNode.querySelector('.quis-creation-question-inputs').classList.toggle('show');
 }
 
+function renderQuizzCreationLevelInputs() {
+    let levelInputs = ''
+    for (let i = 1; i <= 3; i++) {
+        levelInputs += `
+        <li class='new-quizz-input'>
+
+            <header class="quizz-creation-question-header">
+                <h3 class="quizz-creation-question-title">Nível ${i}</h3>
+
+                <button onclick="quizzCreationQuestionToggleQuestion(this)"
+                    class="create-new-question-button ${i === 1 ? 'hide' : ''}">
+                    <img class="create-new-question-img" src="./img/Vector.svg" alt="">
+                </button>
+
+            </header>
+
+            <div class="quis-creation-question-inputs hide ${i === 1 ? 'show' : ''}">
+
+                <input class="new-quizz-input-field quizz-question-text" type="text" placeholder="Título do nível">
+                <input class="new-quizz-input-field quizz-question-background" type="text"
+                    placeholder="% de acerto mínima">
+                <input class="new-quizz-input-field quizz-corret-awnser" type="text"
+                    placeholder="URL da imagem do nível">
+                <textarea class="new-quizz-input-field quizz-level-description" type="text"
+                    placeholder="Descrição do nível"></textarea>
+
+            </div>
+
+        </li>                
+        `
+    }
+    document.querySelector(`.new-quizz-form`).innerHTML = levelInputs;
+
+}
+
+function renderQuizzCreationLevelPage() {
+
+    document.querySelector('.style-page').href = './styles/quizzCreation.css';
+
+    document.querySelector('main').innerHTML = `
+        <header class="new-quizz-header">
+            <h2 class="new-quizz-title">Agora, decida os níveis!</h2>
+        </header>
+
+        <ul class="new-quizz-form">
+
+        </ul>
+
+        <button class="new-quizz-go-to-create-questions">Finalizar Quizz</button>
+    `;
+
+    renderQuizzCreationLevelInputs()
+}
+
 function renderQuizzCreationQuestionFields() {
     let questionsInputs = '';
 

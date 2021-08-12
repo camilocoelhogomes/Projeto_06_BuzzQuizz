@@ -79,7 +79,7 @@ main{
     flex-direction:column;
     justify-content: center;
     align-items: center;
-    margin: 20px 0;
+    margin: 0 0 10px 0;
 }
 
 .create-new-question-button{
@@ -105,4 +105,8 @@ main{
 
 .background-white{
     background-color: #ffffff;
+}
+
+.quizz-level-description{
+    height: 177px;
 }
