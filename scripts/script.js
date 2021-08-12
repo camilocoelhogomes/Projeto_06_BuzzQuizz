@@ -192,7 +192,7 @@ function renderQuizzCreationQuestionsPage() {
 }
 
 function renderQuizzPage() {
-    // document.querySelector('.style-page').href = './styles/quizzPage.css'
+    document.querySelector('.style-page').href = './styles/quizzPage.css'
     // let promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes');
     // promise.then(function (response) {
     //     console.log(response.data[0]);
@@ -233,7 +233,6 @@ function renderQuizzPage() {
 </div>
 
     `
-    renderQuizzCreationQuestionFields();
 }
 
-renderQuizzListPage();
+//renderQuizzListPage();
