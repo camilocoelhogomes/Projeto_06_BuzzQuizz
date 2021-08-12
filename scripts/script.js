@@ -1,5 +1,6 @@
 let allQuizzes;
 
+
 function quizzListRenderAllQuizzes() {
     let allQuizzesList = '';
 
