@@ -3,7 +3,7 @@ let allQuizzes;
 function quizzListRenderAllQuizzes() {
     let allQuizzesList = '';
 
-    for (let i = 0.; i < allQuizzes.length; i++) {
+    for (let i = 0; i < allQuizzes.length; i++) {
         allQuizzesList += `
             <li class='single-quizz' id = "${allQuizzes[i].id}">
                 <figure class = 'single-quizz-figure'>
@@ -22,7 +22,7 @@ function quizzListRenderAllQuizzes() {
 
 function quizzListSaveAllQuizzesAnswer(answer) {
     allQuizzes = answer.data;
-    if (document.querySelector('.style-page').href.includes('quizzList')) {
+    if (document.querySelector('.style-page').href) {
         quizzListRenderAllQuizzes();
     }
 }
