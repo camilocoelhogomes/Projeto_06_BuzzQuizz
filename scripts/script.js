@@ -324,7 +324,7 @@ function transitionPage_3_1_2() {
 // Screen 2 start here
 function goToScreen2() {
     document.querySelector('.style-page').href = './styles/quizzPage.css';
-    quizzListGetAllQuizzes();
+    quizzListGetAllQuizzes_1_1();
 }
 function renderQuizzPage() {
 
@@ -492,4 +492,4 @@ function renderQuestionAnswers(quizzId, questionId) {
 }
 
 
-renderQuizzListPage_1_1();
+goToScreen2();
