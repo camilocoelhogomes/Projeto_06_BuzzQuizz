@@ -402,11 +402,9 @@ function renderQuizzPage(quizzId) {
         </div>
 </div>
 
-<div class="questions-container">
-  <div class="question-container">
-      
-    </div>
-</div>
+<ul class="questions-container">      
+
+</ul>
 </div>
 `
     renderQuizzQuestions(quizzId);
@@ -414,7 +412,10 @@ function renderQuizzPage(quizzId) {
 function shufle() {
     return Math.random() - 0.5;
 }
-
+function choseAnswer (element) {
+    element.classList.add('selected');
+    element.parentNode.classList.add('selected');
+}
 function renderQuestionAnswers(quizzId, questionId) {
     const answersArray = allQuizzes[quizzId].questions[questionId].answers;
     const answerLength = answersArray.length;
@@ -422,7 +423,7 @@ function renderQuestionAnswers(quizzId, questionId) {
 
     for (let i = 0; i < answerLength; i++) {
         document.querySelector('#question-id' + questionId).innerHTML += `
-    <li class="answer-option">
+    <li class="answer-option" onclick="choseAnswer(this)">
               <img src="${answersArray[i].image}" alt="gato">
               <h3>${answersArray[i].text} </h3>
           </li>
@@ -433,13 +434,16 @@ function renderQuestionAnswers(quizzId, questionId) {
 function renderQuizzQuestions(quizzId) {
     const questionsLength = allQuizzes[quizzId].questions.length;
     for (let i = 0; i < questionsLength; i++) {
-        document.querySelector('.question-container').innerHTML += `
+        document.querySelector('.questions-container').innerHTML += `
+        <li class="question-container">
         <h1 class="question-title" style="background-color:${allQuizzes[quizzId].questions[i].color}">
            <strong> ${allQuizzes[quizzId].questions[i].title} </strong>
           </h1>
           <ul class="answer-options" id="question-id${i}">
+          <div class="blank-hide-option"></div>
               
           </ul>
+          </li>
         `
         renderQuestionAnswers(quizzId, i);
     }

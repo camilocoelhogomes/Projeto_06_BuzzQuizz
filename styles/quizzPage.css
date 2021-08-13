@@ -37,6 +37,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 24px;
+  position: relative;
 }
 .question-title {
   width: 100%;
@@ -54,6 +55,17 @@
   justify-content: space-between;
   flex-wrap: wrap;
   font-size: 13px;
+  background-color: rgba(255, 255, 255, 0.);
+}
+.blank-hide-option{
+  width: 100%;
+  height: calc(100% - 89px);
+  background-color: #fff;
+  opacity: 0.5;
+  position: absolute;
+bottom: 0;
+left: 0;
+z-index: -1;
 }
 .answer-option {
   margin-top: 12px;
@@ -61,7 +73,14 @@
 .answer-option img {
   width: 163px;
   height: 113px;
+  z-index: 10;
 }
 .answer-option h3 {
   margin-top: 5px;
+}
+.answer-option.selected{
+  z-index: 1;
+}
+.answer-options.selected .blank-hide-option{
+  z-index: 0;
 }
