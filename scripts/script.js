@@ -1,5 +1,6 @@
 let allQuizzes;
 
+
 function quizzListRenderAllQuizzes() {
     let allQuizzesList = '';
 
@@ -91,6 +92,7 @@ function renderQuizzCreationEndPage() {
             <button onclick="renderQuizzListPage()" class="new-quizz-go-to-home">Voltar para a Home</button>
         </div>
     `;
+    window.scrollTo(0, 0);
 }
 
 function renderQuizzCreationPage() {
@@ -131,6 +133,7 @@ function renderQuizzCreationPage() {
         </article>
     
     `
+    window.scrollTo(0, 0);
 }
 
 function quizzCreationQuestionToggleQuestion(element) {
@@ -192,7 +195,8 @@ function renderQuizzCreationLevelPage() {
         <button onclick="renderQuizzCreationEndPage()" class="new-quizz-go-to-create-questions">Finalizar Quizz</button>
     `;
 
-    renderQuizzCreationLevelInputs()
+    renderQuizzCreationLevelInputs();
+    window.scrollTo(0, 0);
 }
 
 function renderQuizzCreationQuestionFields() {
@@ -273,6 +277,8 @@ function renderQuizzCreationQuestionsPage() {
         <button onclick="renderQuizzCreationLevelPage()" class="new-quizz-go-to-create-questions">Prosseguir para criar Níveis</button>
         `
     renderQuizzCreationQuestionFields();
+
+    window.scrollTo(0, 0);
 }
 // Screen 2 start here
 function goToScreen2() {
