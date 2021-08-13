@@ -7,6 +7,7 @@ const newQuizz = {
     levels: []
 }
 
+
 function validURL(str) {
     const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -278,6 +279,7 @@ function renderQuizzCreationQuestionsPage_3_2(questions) {
     window.scrollTo(0, 0);
 }
 
+
 function transitionPage_3_1_2() {
     let test = true;
     const title = document.querySelector('.quizz-title').value;
@@ -304,7 +306,6 @@ function transitionPage_3_1_2() {
     if (!test) {
         alert('Informações inseridas invalidas');
     }
-
     else if (test) {
         newQuizz.title = title;
         newQuizz.imgage = url;
@@ -319,6 +320,36 @@ function transitionPage_3_1_2() {
         renderQuizzCreationQuestionsPage_3_2(numberQuestions);
     }
 }
+
+// Screen 2 start here
+function goToScreen2() {
+    document.querySelector('.style-page').href = './styles/quizzPage.css';
+    quizzListGetAllQuizzes();
+}
+function renderQuizzPage() {
+
+    document.querySelector('main').innerHTML = `
+    <div class="quizz-banner">     
+    <img
+    src="${allQuizzes[0].image}"
+    />
+        <div class="quizz-banner-cover">
+            <h1>${allQuizzes[0].title}</h1>
+        </div>
+</div>
+
+<div class="questions-container">
+  <div class="question-container">
+      
+    </div>
+</div>
+</div>
+`
+    renderQuizzQuestions();
+}
+
+
+
 
 function renderQuizzCreationPage_3_1() {
 
@@ -361,7 +392,23 @@ function renderQuizzCreationPage_3_1() {
     
     `
     window.scrollTo(0, 0);
+
 }
+function renderQuizzQuestions() {
+    const questionsLength = allQuizzes[0].questions.length;
+    for (let i = 0; i < questionsLength; i++) {
+        document.querySelector('.question-container').innerHTML += `
+        <h1 class="question-title" style="background-color:${allQuizzes[0].questions[i].color}">
+           <strong> ${allQuizzes[0].questions[i].title} </strong>
+          </h1>
+          <ul class="answer-options" id="question-id${i}">
+              
+          </ul>
+        `
+        renderQuestionAnswers(0, i);
+    }
+}
+
 
 function quizzListRenderAllQuizzes_1_1() {
     let allQuizzesList = '';
@@ -387,6 +434,9 @@ function quizzListSaveAllQuizzesAnswer_1_1(answer) {
     allQuizzes = answer.data;
     if (document.querySelector('.style-page').href.includes('quizzList')) {
         quizzListRenderAllQuizzes_1_1();
+    }
+    if (document.querySelector('.style-page').href.includes('quizzPage')) {
+        renderQuizzPage();
     }
 }
 
@@ -425,4 +475,21 @@ function renderQuizzListPage_1_1() {
 
     quizzListGetAllQuizzes_1_1();
 }
+
+
+
+function renderQuestionAnswers(quizzId, questionId) {
+    const answerLength = allQuizzes[quizzId].questions[questionId].answers.length;
+
+    for (let i = 0; i < answerLength; i++) {
+        document.querySelector('#question-id' + questionId).innerHTML += `
+    <li class="answer-option">
+              <img src="${allQuizzes[quizzId].questions[questionId].answers[i].image}" alt="gato">
+              <h3>${allQuizzes[quizzId].questions[questionId].answers[i].text} </h3>
+          </li>
+    `
+    }
+}
+
+
 renderQuizzListPage_1_1();
