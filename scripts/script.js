@@ -1,3 +1,5 @@
+const SECONDS = 1000;
+let scrollId;
 let allQuizzes;
 
 const newQuizz = {
@@ -7,7 +9,7 @@ const newQuizz = {
     levels: []
 }
 
-
+{
 function validURL(str) {
     const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
         '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
@@ -383,8 +385,9 @@ function renderQuizzListPage_1_1() {
 
     quizzListGetAllQuizzes_1_1();
 }
-
+}
 // Screen 2 start here
+{
 function goToScreen2() {
     document.querySelector('.style-page').href = './styles/quizzPage.css';
     quizzListGetAllQuizzes_1_1();
@@ -412,17 +415,33 @@ function renderQuizzPage(quizzId) {
 function shufle() {
     return Math.random() - 0.5;
 }
-function choseAnswer (element) {
+function scrollToNextQuestion(element) {
+    let parentId = element.parentNode.id;
+    const justNumberIdArray =[];
+    let justNumberIdString = "";
+ 
+     for (let i = 11; i < parentId.length; i++){
+         justNumberIdArray.push(parentId[i]);
+     }
+     for (let i = 0; i < justNumberIdArray.length;i++){
+         justNumberIdString += justNumberIdArray[i];
+     }
+     const nextNumberId = Number(justNumberIdString) + 1;
+     const nextId = "question-id" + nextNumberId;
+     document.getElementById(nextId).scrollIntoView();
+}
+function chooseAnswer (element) {
+    clearTimeout(scrollId); // fix the problem of clicking too fast
     element.classList.add('selected');
     element.parentNode.classList.add('selected');
     const trueAnswer = element.parentNode.querySelector('.true');
    const falseAnswers = element.parentNode.querySelectorAll('.false');
-
+   
     trueAnswer.classList.add('green');
    for (let i = 0; i < falseAnswers.length; i++){
        falseAnswers[i].classList.add('red');
    }
-
+  scrollId = setTimeout(scrollToNextQuestion,2*SECONDS,element);
 }
 function renderQuestionAnswers(quizzId, questionId) {
     const answersArray = allQuizzes[quizzId].questions[questionId].answers;
@@ -430,8 +449,8 @@ function renderQuestionAnswers(quizzId, questionId) {
     answersArray.sort(shufle);
 
     for (let i = 0; i < answerLength; i++) {
-        document.querySelector('#question-id' + questionId).innerHTML += `
-    <li class="answer-option" onclick="choseAnswer(this)">
+        document.querySelector('.answer-options#question-id' + questionId).innerHTML += `
+    <li class="answer-option" onclick="chooseAnswer(this)">
               <img src="${answersArray[i].image}" alt="gato">
               <h3 class="${answersArray[i].isCorrectAnswer}"><strong>${answersArray[i].text}</strong></h3>
           </li>
@@ -443,7 +462,7 @@ function renderQuizzQuestions(quizzId) {
     const questionsLength = allQuizzes[quizzId].questions.length;
     for (let i = 0; i < questionsLength; i++) {
         document.querySelector('.questions-container').innerHTML += `
-        <li class="question-container">
+        <li class="question-container" id="question-id${i}">
         <h1 class="question-title" style="background-color:${allQuizzes[quizzId].questions[i].color}">
            <strong> ${allQuizzes[quizzId].questions[i].title} </strong>
           </h1>
@@ -456,4 +475,4 @@ function renderQuizzQuestions(quizzId) {
         renderQuestionAnswers(quizzId, i);
     }
 }
-goToScreen2();
+}
