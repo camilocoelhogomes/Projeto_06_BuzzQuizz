@@ -425,5 +425,4 @@ function renderQuizzListPage_1_1() {
 
     quizzListGetAllQuizzes_1_1();
 }
-//renderQuizzListPage_1_1();
-renderQuizzCreationQuestionsPage_3_2(3);
+renderQuizzListPage_1_1();
