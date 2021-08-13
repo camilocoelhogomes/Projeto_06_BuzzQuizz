@@ -415,6 +415,14 @@ function shufle() {
 function choseAnswer (element) {
     element.classList.add('selected');
     element.parentNode.classList.add('selected');
+    const trueAnswer = element.parentNode.querySelector('.true');
+   const falseAnswers = element.parentNode.querySelectorAll('.false');
+
+    trueAnswer.classList.add('green');
+   for (let i = 0; i < falseAnswers.length; i++){
+       falseAnswers[i].classList.add('red');
+   }
+
 }
 function renderQuestionAnswers(quizzId, questionId) {
     const answersArray = allQuizzes[quizzId].questions[questionId].answers;
@@ -425,7 +433,7 @@ function renderQuestionAnswers(quizzId, questionId) {
         document.querySelector('#question-id' + questionId).innerHTML += `
     <li class="answer-option" onclick="choseAnswer(this)">
               <img src="${answersArray[i].image}" alt="gato">
-              <h3>${answersArray[i].text} </h3>
+              <h3 class="${answersArray[i].isCorrectAnswer}"><strong>${answersArray[i].text}</strong></h3>
           </li>
     `
     }
@@ -448,3 +456,4 @@ function renderQuizzQuestions(quizzId) {
         renderQuestionAnswers(quizzId, i);
     }
 }
+goToScreen2();
