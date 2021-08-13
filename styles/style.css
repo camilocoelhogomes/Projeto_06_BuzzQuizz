@@ -3,7 +3,7 @@ body{
 }
 main{
     background-color: #fafafa;
-    height: 100vh;
+    min-height: 100vh; /* Why fix 100vw ????*/
     margin-top: 70px;
 }
 .main-header{
