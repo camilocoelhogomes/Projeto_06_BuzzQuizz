@@ -4,6 +4,7 @@ body{
 main{
     background-color: #fafafa;
     height: 100vh;
+    margin-top: 70px;
 }
 .main-header{
     width: 100%;
@@ -16,15 +17,14 @@ main{
     position: fixed;
     top:0;
     left:0;
+    z-index: 1;
 }
-
 .main-title{
     font-size: 37px;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
     color: #ffffff;
 }
-
-main{
-    margin-top: 70px;
+.hide {
+    display: none;
 }
