@@ -8,26 +8,26 @@ const newQuizz = {
     questions: [],
     levels: []
 }
-
+//screen 3 start here
 {
-function validURL(str) {
-    const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-    return !!pattern.test(str);
-}
+    function validURL(str) {
+        const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+        return !!pattern.test(str);
+    }
 
-function checkURL(url) {
-    return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
-}
+    function checkURL(url) {
+        return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+    }
 
 
-function renderQuizzCreationEndPage() {
-    document.querySelector('.style-page').href = './styles/quizzCreation.css'
-    document.querySelector('main').innerHTML = `
+    function renderQuizzCreationEndPage() {
+        document.querySelector('.style-page').href = './styles/quizzCreation.css'
+        document.querySelector('main').innerHTML = `
         <header class="new-quizz-header">
             <h2 class="new-quizz-title">Seu quizz está pronto!</h2>
         </header>
@@ -49,21 +49,21 @@ function renderQuizzCreationEndPage() {
             <button onclick="renderQuizzListPage_1_1()" class="new-quizz-go-to-home">Voltar para a Home</button>
         </div>
     `;
-    window.scrollTo(0, 0);
-}
+        window.scrollTo(0, 0);
+    }
 
-function quizzCreationQuestionToggleQuestion(element) {
-    olderQuestion = document.querySelector('.quis-creation-question-inputs.show');
-    olderQuestion.classList.toggle('show');
-    olderQuestion.parentNode.querySelector('.create-new-question-button.hide').classList.toggle('hide');
-    element.classList.toggle('hide');
-    element.parentNode.parentNode.querySelector('.quis-creation-question-inputs').classList.toggle('show');
-}
+    function quizzCreationQuestionToggleQuestion(element) {
+        olderQuestion = document.querySelector('.quis-creation-question-inputs.show');
+        olderQuestion.classList.toggle('show');
+        olderQuestion.parentNode.querySelector('.create-new-question-button.hide').classList.toggle('hide');
+        element.classList.toggle('hide');
+        element.parentNode.parentNode.querySelector('.quis-creation-question-inputs').classList.toggle('show');
+    }
 
-function renderQuizzCreationLevelInputs() {
-    let levelInputs = ''
-    for (let i = 1; i <= 3; i++) {
-        levelInputs += `
+    function renderQuizzCreationLevelInputs() {
+        let levelInputs = ''
+        for (let i = 1; i <= 3; i++) {
+            levelInputs += `
         <li class='new-quizz-input'>
 
             <header class="quizz-creation-question-header">
@@ -90,16 +90,16 @@ function renderQuizzCreationLevelInputs() {
 
         </li>                
         `
+        }
+        document.querySelector(`.new-quizz-form`).innerHTML = levelInputs;
+
     }
-    document.querySelector(`.new-quizz-form`).innerHTML = levelInputs;
 
-}
+    function renderQuizzCreationLevelPage() {
 
-function renderQuizzCreationLevelPage() {
+        document.querySelector('.style-page').href = './styles/quizzCreation.css';
 
-    document.querySelector('.style-page').href = './styles/quizzCreation.css';
-
-    document.querySelector('main').innerHTML = `
+        document.querySelector('main').innerHTML = `
         <header class="new-quizz-header">
             <h2 class="new-quizz-title">Agora, decida os níveis!</h2>
         </header>
@@ -111,53 +111,53 @@ function renderQuizzCreationLevelPage() {
         <button onclick="renderQuizzCreationEndPage()" class="new-quizz-go-to-create-questions">Finalizar Quizz</button>
     `;
 
-    renderQuizzCreationLevelInputs();
-    window.scrollTo(0, 0);
-}
-
-function verifyer_3_2_3() {
-    let text = true;
-    console.log('entrei');
-
-    const inputs = {
-        questionTexts: document.querySelectorAll('.quizz-question-text'),
-        questionCollor: document.querySelectorAll('.quizz-question-background'),
-        questionCorrectText: document.querySelectorAll('.quizz-correct-awnser'),
-        questionCorrectImg: document.querySelectorAll('.quizz-correct-img'),
+        renderQuizzCreationLevelInputs();
+        window.scrollTo(0, 0);
     }
 
-    for (let i = 0; i < inputs.questionTexts.length; i++) {
-        if (inputs.questionTexts[i].value.length < 20) {
-            text = false;
+    function verifyer_3_2_3() {
+        let text = true;
+        console.log('entrei');
+
+        const inputs = {
+            questionTexts: document.querySelectorAll('.quizz-question-text'),
+            questionCollor: document.querySelectorAll('.quizz-question-background'),
+            questionCorrectText: document.querySelectorAll('.quizz-correct-awnser'),
+            questionCorrectImg: document.querySelectorAll('.quizz-correct-img'),
         }
+
+        for (let i = 0; i < inputs.questionTexts.length; i++) {
+            if (inputs.questionTexts[i].value.length < 20) {
+                text = false;
+            }
+        }
+
+
+
+        if (!text) {
+            console.log('texto');
+        }
+
     }
 
+    function transitionPage_3_2_3() {
+        let questions = [];
 
+        let question = {
+            title: '',
+            color: '',
+            answers: []
+        }
 
-    if (!text) {
-        console.log('texto');
+        verifyer_3_2_3();
+
     }
 
-}
+    function renderQuizzCreationQuestionFields_3_2(questions) {
+        let questionsInputs = '';
 
-function transitionPage_3_2_3() {
-    let questions = [];
-
-    let question = {
-        title: '',
-        color: '',
-        answers: []
-    }
-
-    verifyer_3_2_3();
-
-}
-
-function renderQuizzCreationQuestionFields_3_2(questions) {
-    let questionsInputs = '';
-
-    for (i = 1; i <= questions; i++) {
-        questionsInputs += `
+        for (i = 1; i <= questions; i++) {
+            questionsInputs += `
             <li class='new-quizz-input'>
 
                 <header class="quizz-creation-question-header">
@@ -210,16 +210,16 @@ function renderQuizzCreationQuestionFields_3_2(questions) {
 
             </li>
         `
+        }
+
+        document.querySelector(`.new-quizz-form`).innerHTML = questionsInputs;
     }
 
-    document.querySelector(`.new-quizz-form`).innerHTML = questionsInputs;
-}
+    function renderQuizzCreationQuestionsPage_3_2(questions) {
 
-function renderQuizzCreationQuestionsPage_3_2(questions) {
+        document.querySelector('.style-page').href = './styles/quizzCreation.css'
 
-    document.querySelector('.style-page').href = './styles/quizzCreation.css'
-
-    document.querySelector('main').innerHTML = `
+        document.querySelector('main').innerHTML = `
         <header class="new-quizz-header">
             <h2 class="new-quizz-title">Crie suas perguntas</h2>
         </header>
@@ -230,57 +230,57 @@ function renderQuizzCreationQuestionsPage_3_2(questions) {
 
         <button onclick="transitionPage_3_2_3()" class="new-quizz-go-to-create-questions">Prosseguir para criar Níveis</button>
         `
-    renderQuizzCreationQuestionFields_3_2(questions);
+        renderQuizzCreationQuestionFields_3_2(questions);
 
-    window.scrollTo(0, 0);
-}
-
-function transitionPage_3_1_2() {
-    let test = true;
-    const title = document.querySelector('.quizz-title').value;
-    const url = document.querySelector('.quizz-img').value;
-    const numberQuestions = Number(document.querySelector('.quizz-questions').value);
-    const numberLevels = Number(document.querySelector('.quizz-level').value);
-
-    if (title.length < 20 || title.length > 60) {
-        test = false;
+        window.scrollTo(0, 0);
     }
 
-    if (!validURL(url) && checkURL(url)) {
-        test = false;
-    }
+    function transitionPage_3_1_2() {
+        let test = true;
+        const title = document.querySelector('.quizz-title').value;
+        const url = document.querySelector('.quizz-img').value;
+        const numberQuestions = Number(document.querySelector('.quizz-questions').value);
+        const numberLevels = Number(document.querySelector('.quizz-level').value);
 
-    if (numberQuestions < 3) {
-        test = false;
-    }
-
-    if (numberLevels < 2) {
-        test = false;
-    }
-
-    if (!test) {
-        alert('Informações inseridas invalidas');
-    }
-    else if (test) {
-        newQuizz.title = title;
-        newQuizz.imgage = url;
-
-        let level = {
-            title: "",
-            image: "",
-            text: "",
-            minValue: 0
+        if (title.length < 20 || title.length > 60) {
+            test = false;
         }
 
-        renderQuizzCreationQuestionsPage_3_2(numberQuestions);
+        if (!validURL(url) && checkURL(url)) {
+            test = false;
+        }
+
+        if (numberQuestions < 3) {
+            test = false;
+        }
+
+        if (numberLevels < 2) {
+            test = false;
+        }
+
+        if (!test) {
+            alert('Informações inseridas invalidas');
+        }
+        else if (test) {
+            newQuizz.title = title;
+            newQuizz.imgage = url;
+
+            let level = {
+                title: "",
+                image: "",
+                text: "",
+                minValue: 0
+            }
+
+            renderQuizzCreationQuestionsPage_3_2(numberQuestions);
+        }
     }
-}
 
-function renderQuizzCreationPage_3_1() {
+    function renderQuizzCreationPage_3_1() {
 
-    document.querySelector('.style-page').href = './styles/quizzCreation.css'
+        document.querySelector('.style-page').href = './styles/quizzCreation.css'
 
-    document.querySelector('main').innerHTML = `
+        document.querySelector('main').innerHTML = `
 
         <article class='new-quizz-beggin'>
 
@@ -316,15 +316,15 @@ function renderQuizzCreationPage_3_1() {
         </article>
     
     `
-    window.scrollTo(0, 0);
+        window.scrollTo(0, 0);
 
-}
+    }
 
-function quizzListRenderAllQuizzes_1_1() {
-    let allQuizzesList = '';
+    function quizzListRenderAllQuizzes_1_1() {
+        let allQuizzesList = '';
 
-    for (let i = 0; i < allQuizzes.length; i++) {
-        allQuizzesList += `
+        for (let i = 0; i < allQuizzes.length; i++) {
+            allQuizzesList += `
             <li class='single-quizz' id = "${allQuizzes[i].id}">
                 <figure class = 'single-quizz-figure'>
                     <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
@@ -335,31 +335,31 @@ function quizzListRenderAllQuizzes_1_1() {
                 </header>
             </li>
         `
+        }
+
+        document.querySelector('.all-quizzes-list').innerHTML = allQuizzesList;
     }
 
-    document.querySelector('.all-quizzes-list').innerHTML = allQuizzesList;
-}
-
-function quizzListSaveAllQuizzesAnswer_1_1(answer) {
-    allQuizzes = answer.data;
-    if (document.querySelector('.style-page').href.includes('quizzList')) {
-        quizzListRenderAllQuizzes_1_1();
+    function quizzListSaveAllQuizzesAnswer_1_1(answer) {
+        allQuizzes = answer.data;
+        if (document.querySelector('.style-page').href.includes('quizzList')) {
+            quizzListRenderAllQuizzes_1_1();
+        }
+        if (document.querySelector('.style-page').href.includes('quizzPage')) {
+            renderQuizzPage(allQuizzes.length - 1);
+        }
     }
-    if (document.querySelector('.style-page').href.includes('quizzPage')) {
-        renderQuizzPage(allQuizzes.length -1);
+
+    function quizzListGetAllQuizzes_1_1() {
+        let promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes');
+        promise.then(quizzListSaveAllQuizzesAnswer_1_1);
     }
-}
 
-function quizzListGetAllQuizzes_1_1() {
-    let promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes');
-    promise.then(quizzListSaveAllQuizzesAnswer_1_1);
-}
+    function renderQuizzListPage_1_1() {
 
-function renderQuizzListPage_1_1() {
+        document.querySelector('.style-page').href = './styles/quizzList.css'
 
-    document.querySelector('.style-page').href = './styles/quizzList.css'
-
-    document.querySelector('main').innerHTML = `
+        document.querySelector('main').innerHTML = `
 
         <article class="create-new-quizz">
             
@@ -383,19 +383,20 @@ function renderQuizzListPage_1_1() {
         </article>
     `
 
-    quizzListGetAllQuizzes_1_1();
-}
+        quizzListGetAllQuizzes_1_1();
+    }
 }
 // Screen 2 start here
 {
-function goToScreen2() {
-    document.querySelector('.style-page').href = './styles/quizzPage.css';
-    quizzListGetAllQuizzes_1_1();
-}
+    let questionsNumber;
+    let questionsAnswered = 0;
+    function goToScreen2() {
+        document.querySelector('.style-page').href = './styles/quizzPage.css';
+        quizzListGetAllQuizzes_1_1();
+    }
+    function renderQuizzPage(quizzId) {
 
-function renderQuizzPage(quizzId) {
-
-    document.querySelector('main').innerHTML = `
+        document.querySelector('main').innerHTML = `
     <div class="quizz-banner">     
     <img
     src="${allQuizzes[quizzId].image}"
@@ -410,58 +411,87 @@ function renderQuizzPage(quizzId) {
 </ul>
 </div>
 `
-    renderQuizzQuestions(quizzId);
-}
-function shufle() {
-    return Math.random() - 0.5;
-}
-function scrollToNextQuestion(element) {
-    let parentId = element.parentNode.id;
-    const justNumberIdArray =[];
-    let justNumberIdString = "";
- 
-     for (let i = 11; i < parentId.length; i++){
-         justNumberIdArray.push(parentId[i]);
-     }
-     for (let i = 0; i < justNumberIdArray.length;i++){
-         justNumberIdString += justNumberIdArray[i];
-     }
-     const nextNumberId = Number(justNumberIdString) + 1;
-     const nextId = "question-id" + nextNumberId;
-     document.getElementById(nextId).scrollIntoView();
-}
-function chooseAnswer (element) {
-    clearTimeout(scrollId); // fix the problem of clicking too fast
-    element.classList.add('selected');
-    element.parentNode.classList.add('selected');
-    const trueAnswer = element.parentNode.querySelector('.true');
-   const falseAnswers = element.parentNode.querySelectorAll('.false');
-   
-    trueAnswer.classList.add('green');
-   for (let i = 0; i < falseAnswers.length; i++){
-       falseAnswers[i].classList.add('red');
-   }
-  scrollId = setTimeout(scrollToNextQuestion,2*SECONDS,element);
-}
-function renderQuestionAnswers(quizzId, questionId) {
-    const answersArray = allQuizzes[quizzId].questions[questionId].answers;
-    const answerLength = answersArray.length;
-    answersArray.sort(shufle);
+        renderQuizzQuestions(quizzId);
+    }
+    function shufle() {
+        return Math.random() - 0.5;
+    }
+    function scrollToNextQuestion(element) {
+        let parentId = element.parentNode.id;
+        const justNumberIdArray = [];
+        let justNumberIdString = "";
 
-    for (let i = 0; i < answerLength; i++) {
-        document.querySelector('.answer-options#question-id' + questionId).innerHTML += `
+        for (let i = 11; i < parentId.length; i++) {
+            justNumberIdArray.push(parentId[i]);
+        }
+        for (let i = 0; i < justNumberIdArray.length; i++) {
+            justNumberIdString += justNumberIdArray[i];
+        }
+        const nextNumberId = Number(justNumberIdString) + 1;
+        const nextId = "question-id" + nextNumberId;
+        document.getElementById(nextId).scrollIntoView('slow');
+        window.scrollBy({
+            top: -69,
+            left: 0,
+            behavior: 'smooth'
+        });
+    }
+    function scrollToResult() {
+        document.querySelector('.result-title').scrollIntoView('slow');
+        window.scrollBy({
+            top: -40,
+            left: 0,
+            behavior: 'smooth'
+        });
+    }
+    function showQuizzResult() {
+        document.querySelector('main').innerHTML += `
+    <div class="result-container">
+            <h1 class="result-title"> <strong>88% de acerto: Você é praticamente um aluno de Hogwarts!</strong></h1>
+            <img src="https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png" alt="">
+            <p> <strong> Parabéns Potterhead! Bem-vindx a Hogwarts, aproveite o loop infinito de comida e clique no botão abaixo para usar o vira-tempo e reiniciar este teste.</strong></p>
+        </div>
+        <button class="restart" onclick="goToScreen2()">Reiniciar Quizz</button>
+        <button class="go-to-home" onclick="renderQuizzListPage_1_1()">Voltar para home</button>
+        `;
+    }
+    function chooseAnswer(element) {
+        element.classList.add('selected');
+        element.parentNode.classList.add('selected');
+        const trueAnswer = element.parentNode.querySelector('.true');
+        const falseAnswers = element.parentNode.querySelectorAll('.false');
+
+        trueAnswer.classList.add('green');
+        for (let i = 0; i < falseAnswers.length; i++) {
+            falseAnswers[i].classList.add('red');
+        }
+        element.setAttribute('onclick', "");
+        questionsAnswered++;
+        if (questionsAnswered === questionsNumber) {
+            showQuizzResult();
+           scrollId = setTimeout(scrollToResult(), 20 * SECONDS);
+        }
+        scrollId = setTimeout(scrollToNextQuestion, 2 * SECONDS, element);
+
+    }
+    function renderQuestionAnswers(quizzId, questionId) {
+        const answersArray = allQuizzes[quizzId].questions[questionId].answers;
+        const answerLength = answersArray.length;
+        answersArray.sort(shufle);
+
+        for (let i = 0; i < answerLength; i++) {
+            document.querySelector('.answer-options#question-id' + questionId).innerHTML += `
     <li class="answer-option" onclick="chooseAnswer(this)">
               <img src="${answersArray[i].image}" alt="gato">
               <h3 class="${answersArray[i].isCorrectAnswer}"><strong>${answersArray[i].text}</strong></h3>
           </li>
     `
+        }
     }
-}
-
-function renderQuizzQuestions(quizzId) {
-    const questionsLength = allQuizzes[quizzId].questions.length;
-    for (let i = 0; i < questionsLength; i++) {
-        document.querySelector('.questions-container').innerHTML += `
+    function renderQuizzQuestions(quizzId) {
+        questionsNumber = allQuizzes[quizzId].questions.length;
+        for (let i = 0; i < questionsNumber; i++) {
+            document.querySelector('.questions-container').innerHTML += `
         <li class="question-container" id="question-id${i}">
         <h1 class="question-title" style="background-color:${allQuizzes[quizzId].questions[i].color}">
            <strong> ${allQuizzes[quizzId].questions[i].title} </strong>
@@ -472,7 +502,8 @@ function renderQuizzQuestions(quizzId) {
           </ul>
           </li>
         `
-        renderQuestionAnswers(quizzId, i);
+            renderQuestionAnswers(quizzId, i);
+        }
     }
 }
-}
+goToScreen2();
