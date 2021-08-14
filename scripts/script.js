@@ -126,28 +126,49 @@ let level = {
         const allQuestions = document.querySelectorAll('.new-quizz-input');
 
         console.log(allQuestions);
-        let error = true;
+
+        let error = false;
 
         for (let i = 0; i < allQuestions.length; i++) {
-            newQuizz.questions[i].title = allQuestions[i].querySelector('.quizz-question-text').value;
-            newQuizz.questions[i].image = allQuestions[i].querySelector('.quizz-question-background').value;
-            newQuizz.questions[i].answer = [{
-                text: allQuestions[i].querySelector('.quizz-correct-awnser').value,
-                image: allQuestions[i].querySelector('.quizz-correct-img').value,
-                isCorrectAnswer: true
-            }];
+            const title = allQuestions[i].querySelector('.quizz-question-text').value;
+            const correctAnswerText = allQuestions[i].querySelector('.quizz-correct-awnser').value;
+            const correctImage = allQuestions[i].querySelector('.quizz-correct-img').value;
 
-            const incorrectAnswer = allQuestions[i].querySelectorAll('.quizz-incorrect-awser');
+            newQuizz.questions[i].color = allQuestions[i].querySelector('.quizz-question-background').value;
 
-            incorrectAnswer.forEach((item) => {
-                newQuizz.questions[i].answer.push(
-                    {
-                        text: item.value,
-                        image: item.parentNode.querySelector('.quizz-img').value,
-                        isCorrectAnswer: false
-                    }
-                )
-            });
+            if (title < 20) {
+                error = true;
+            } else {
+                newQuizz.questions[i].title = title;
+            }
+
+            if ((correctAnswerText === '') && (!validURL(correctImage) || !checkURL(correctImage))) {
+                error = true;
+            } else {
+                newQuizz.questions[i].answer = [{
+                    text: correctAnswerText,
+                    image: correctImage,
+                    isCorrectAnswer: true
+                }]
+                const incorrectAnswer = allQuestions[i].querySelectorAll('.quizz-incorrect-awser');
+
+                incorrectAnswer.forEach((item) => {
+                    newQuizz.questions[i].answer.push(
+                        {
+                            text: item.value,
+                            image: item.parentNode.querySelector('.quizz-img').value,
+                            isCorrectAnswer: false
+                        }
+                    )
+                });
+            }
+        }
+
+        if (error) {
+            alert('Informações inseridas invalidas');
+        }
+        else {
+            alert('Tudo Certo!')
         }
         console.log(newQuizz.questions);
 
@@ -472,7 +493,7 @@ let level = {
             hitPercentage = (questionsHitted/questionsNumber)*100;
             console.log(hitPercentage);
             showQuizzResult();
-           scrollId = setTimeout(scrollToResult(), 20 * SECONDS);
+            scrollId = setTimeout(scrollToResult(), 20 * SECONDS);
         }
         scrollId = setTimeout(scrollToNextQuestion, 2 * SECONDS, element);
 
