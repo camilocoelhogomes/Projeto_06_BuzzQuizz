@@ -1,4 +1,5 @@
 const SECONDS = 1000;
+const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/';
 let scrollId;
 let allQuizzes;
 
@@ -402,7 +403,7 @@ let newQuizz = {
 
         for (let i = 0; i < allQuizzes.length; i++) {
             allQuizzesList += `
-            <li class='single-quizz' id = "${allQuizzes[i].id}">
+            <li class='single-quizz' id = "${allQuizzes[i].id}" onclick="goToScreen2(${allQuizzes[i].id})">
                 <figure class = 'single-quizz-figure'>
                     <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
                 </figure>
@@ -422,13 +423,10 @@ let newQuizz = {
         if (document.querySelector('.style-page').href.includes('quizzList')) {
             quizzListRenderAllQuizzes_1_1();
         }
-        if (document.querySelector('.style-page').href.includes('quizzPage')) {
-            renderQuizzPage(allQuizzes.length - 1);
-        }
     }
 
     function quizzListGetAllQuizzes_1_1() {
-        let promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes');
+        let promise = axios.get(API_URL);
         promise.then(quizzListSaveAllQuizzesAnswer_1_1);
     }
 
@@ -464,24 +462,28 @@ let newQuizz = {
     }
 }
 // Screen 2 start here
-{
+{   
+    let quizzSelected;
     let questionsNumber, hitPercentage;
     let questionsAnswered = 0;
     let questionsHitted = 0;
-    function goToScreen2() {
+    
+    function goToScreen2(quizzId) {
         document.querySelector('.style-page').href = './styles/quizzPage.css';
-        quizzListGetAllQuizzes_1_1();
+        let promise = axios.get(API_URL+quizzId);
+        promise.then(renderQuizzPage)
     }
 
-    function renderQuizzPage(quizzId) {
+    function renderQuizzPage(answer) {
+        quizzSelected = answer.data;
         window.scrollTo(0, 0);
         document.querySelector('main').innerHTML = `
     <div class="quizz-banner">     
     <img
-    src="${allQuizzes[quizzId].image}"
+    src="${quizzSelected.image}"
     />
         <div class="quizz-banner-cover">
-            <h1>${allQuizzes[quizzId].title}</h1>
+            <h1>${quizzSelected.title}</h1>
         </div>
 </div>
 
@@ -490,7 +492,7 @@ let newQuizz = {
 </ul>
 </div>
 `
-        renderQuizzQuestions(quizzId);
+        renderQuizzQuestions();
     }
     function shufle() {
         return Math.random() - 0.5;
@@ -530,14 +532,14 @@ let newQuizz = {
             <img src="${resultLevel.image}" alt="">
             <p> <strong> ${resultLevel.text}</strong></p>
         </div>
-        <button class="restart" onclick="goToScreen2()">Reiniciar Quizz</button>
+        <button class="restart" onclick="goToScreen2(${quizzSelected.id})">Reiniciar Quizz</button>
         <button class="go-to-home" onclick="renderQuizzListPage_1_1()">Voltar para home</button>
         `;
     }
     function calcResult() {
         hitPercentage = (questionsHitted / questionsNumber) * 100;
         hitPercentage = Math.round(hitPercentage);
-        const levels = allQuizzes[allQuizzes.length - 1].levels;
+        const levels = quizzSelected.levels;
         const clientLevelsAchived = levels.filter(level => { if (level.minValue <= hitPercentage) return true });
         let higherLevel = clientLevelsAchived[0];
         for (let i = 1; i < clientLevelsAchived.length; i++) {
@@ -563,8 +565,8 @@ let newQuizz = {
         scrollId = setTimeout(scrollToNextQuestion, 2 * SECONDS, element);
 
     }
-    function renderQuestionAnswers(quizzId, questionId) {
-        const answersArray = allQuizzes[quizzId].questions[questionId].answers;
+    function renderQuestionAnswers(questionId) {
+        const answersArray = quizzSelected.questions[questionId].answers;
         const answerLength = answersArray.length;
         answersArray.sort(shufle);
 
@@ -577,13 +579,13 @@ let newQuizz = {
     `
         }
     }
-    function renderQuizzQuestions(quizzId) {
-        questionsNumber = allQuizzes[quizzId].questions.length;
+    function renderQuizzQuestions() {
+        questionsNumber = quizzSelected.questions.length;
         for (let i = 0; i < questionsNumber; i++) {
             document.querySelector('.questions-container').innerHTML += `
         <li class="question-container" id="question-id${i}">
-        <h1 class="question-title" style="background-color:${allQuizzes[quizzId].questions[i].color}">
-           <strong> ${allQuizzes[quizzId].questions[i].title} </strong>
+        <h1 class="question-title" style="background-color:${quizzSelected.questions[i].color}">
+           <strong> ${quizzSelected.questions[i].title} </strong>
           </h1>
           <ul class="answer-options" id="question-id${i}">
           <div class="blank-hide-option"></div>
@@ -591,8 +593,8 @@ let newQuizz = {
           </ul>
           </li>
         `
-            renderQuestionAnswers(quizzId, i);
+            renderQuestionAnswers(i);
         }
     }
 }
-goToScreen2();
+renderQuizzListPage_1_1();
