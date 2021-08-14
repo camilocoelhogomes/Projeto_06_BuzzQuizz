@@ -417,7 +417,7 @@ let level = {
 }
 // Screen 2 start here
 {
-    let questionsNumber,hitPercentage;
+    let questionsNumber, hitPercentage;
     let questionsAnswered = 0;
     let questionsHitted = 0;
     function goToScreen2() {
@@ -426,7 +426,7 @@ let level = {
     }
 
     function renderQuizzPage(quizzId) {
-
+        window.scrollTo(0, 0);
         document.querySelector('main').innerHTML = `
     <div class="quizz-banner">     
     <img
@@ -475,16 +475,28 @@ let level = {
             behavior: 'smooth'
         });
     }
-    function showQuizzResult() {
+    function showQuizzResult(resultLevel) {
         document.querySelector('main').innerHTML += `
     <div class="result-container">
-            <h1 class="result-title"> <strong>88% de acerto: Você é praticamente um aluno de Hogwarts!</strong></h1>
-            <img src="https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png" alt="">
-            <p> <strong> Parabéns Potterhead! Bem-vindx a Hogwarts, aproveite o loop infinito de comida e clique no botão abaixo para usar o vira-tempo e reiniciar este teste.</strong></p>
+            <h1 class="result-title"> <strong>${hitPercentage}% de acerto: ${resultLevel.title}</strong></h1>
+            <img src="${resultLevel.image}" alt="">
+            <p> <strong> ${resultLevel.text}</strong></p>
         </div>
         <button class="restart" onclick="goToScreen2()">Reiniciar Quizz</button>
         <button class="go-to-home" onclick="renderQuizzListPage_1_1()">Voltar para home</button>
         `;
+    }
+    function calcResult() {
+        hitPercentage = (questionsHitted / questionsNumber) * 100;
+        hitPercentage = Math.round(hitPercentage);
+        const levels = allQuizzes[allQuizzes.length - 1].levels;
+        const clientLevelsAchived = levels.filter(level => { if (level.minValue <= hitPercentage) return true });
+        let higherLevel = clientLevelsAchived[0];
+        for (let i = 1; i < clientLevelsAchived.length; i++) {
+            if (higherLevel.minValue < clientLevelsAchived[i].minValue) higherLevel = clientLevelsAchived[i];
+        }
+        showQuizzResult(higherLevel);
+        scrollId = setTimeout(scrollToResult(), 20 * SECONDS);
     }
     function chooseAnswer(element) {
         clearTimeout(scrollId);
@@ -497,14 +509,9 @@ let level = {
             falseAnswers[i].classList.add('red');
         }
         element.setAttribute('onclick', "");
-        if (element.querySelector('.true')) questionsHitted ++;
+        if (element.querySelector('.true')) questionsHitted++;
         questionsAnswered++;
-        if (questionsAnswered === questionsNumber) {
-            hitPercentage = (questionsHitted/questionsNumber)*100;
-            console.log(hitPercentage);
-            showQuizzResult();
-            scrollId = setTimeout(scrollToResult(), 20 * SECONDS);
-        }
+        if (questionsAnswered === questionsNumber) calcResult();
         scrollId = setTimeout(scrollToNextQuestion, 2 * SECONDS, element);
 
     }
@@ -540,3 +547,4 @@ let level = {
         }
     }
 }
+goToScreen2();
