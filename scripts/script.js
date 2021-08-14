@@ -386,8 +386,9 @@ let level = {
 }
 // Screen 2 start here
 {
-    let questionsNumber;
+    let questionsNumber,hitPercentage;
     let questionsAnswered = 0;
+    let questionsHitted = 0;
     function goToScreen2() {
         document.querySelector('.style-page').href = './styles/quizzPage.css';
         quizzListGetAllQuizzes_1_1();
@@ -455,18 +456,21 @@ let level = {
         `;
     }
     function chooseAnswer(element) {
+        clearTimeout(scrollId);
         element.classList.add('selected');
         element.parentNode.classList.add('selected');
         const trueAnswer = element.parentNode.querySelector('.true');
         const falseAnswers = element.parentNode.querySelectorAll('.false');
-
         trueAnswer.classList.add('green');
         for (let i = 0; i < falseAnswers.length; i++) {
             falseAnswers[i].classList.add('red');
         }
         element.setAttribute('onclick', "");
+        if (element.querySelector('.true')) questionsHitted ++;
         questionsAnswered++;
         if (questionsAnswered === questionsNumber) {
+            hitPercentage = (questionsHitted/questionsNumber)*100;
+            console.log(hitPercentage);
             showQuizzResult();
            scrollId = setTimeout(scrollToResult(), 20 * SECONDS);
         }
@@ -505,3 +509,4 @@ let level = {
         }
     }
 }
+goToScreen2();
