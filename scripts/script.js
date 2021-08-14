@@ -9,7 +9,7 @@ let newQuizz = {
     levels: []
 }
 
-
+//Screen 3 start here
 {
     function validURL(str) {
         const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
@@ -394,7 +394,9 @@ let newQuizz = {
         window.scrollTo(0, 0);
 
     }
-
+}
+//Screen 1 start here
+{
     function quizzListRenderAllQuizzes_1_1() {
         let allQuizzesList = '';
 
