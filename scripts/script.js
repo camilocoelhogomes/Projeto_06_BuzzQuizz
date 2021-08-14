@@ -407,6 +407,8 @@ let level = {
 }
 // Screen 2 start here
 {
+    let questionsNumber;
+    let questionsAnswered = 0;
     function goToScreen2() {
         document.querySelector('.style-page').href = './styles/quizzPage.css';
         quizzListGetAllQuizzes_1_1();
@@ -447,10 +449,33 @@ let level = {
         }
         const nextNumberId = Number(justNumberIdString) + 1;
         const nextId = "question-id" + nextNumberId;
-        document.getElementById(nextId).scrollIntoView();
+        document.getElementById(nextId).scrollIntoView('slow');
+        window.scrollBy({
+            top: -69,
+            left: 0,
+            behavior: 'smooth'
+        });
+    }
+    function scrollToResult() {
+        document.querySelector('.result-title').scrollIntoView('slow');
+        window.scrollBy({
+            top: -40,
+            left: 0,
+            behavior: 'smooth'
+        });
+    }
+    function showQuizzResult() {
+        document.querySelector('main').innerHTML += `
+    <div class="result-container">
+            <h1 class="result-title"> <strong>88% de acerto: Você é praticamente um aluno de Hogwarts!</strong></h1>
+            <img src="https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png" alt="">
+            <p> <strong> Parabéns Potterhead! Bem-vindx a Hogwarts, aproveite o loop infinito de comida e clique no botão abaixo para usar o vira-tempo e reiniciar este teste.</strong></p>
+        </div>
+        <button class="restart" onclick="goToScreen2()">Reiniciar Quizz</button>
+        <button class="go-to-home" onclick="renderQuizzListPage_1_1()">Voltar para home</button>
+        `;
     }
     function chooseAnswer(element) {
-        clearTimeout(scrollId); // fix the problem of clicking too fast
         element.classList.add('selected');
         element.parentNode.classList.add('selected');
         const trueAnswer = element.parentNode.querySelector('.true');
@@ -460,7 +485,14 @@ let level = {
         for (let i = 0; i < falseAnswers.length; i++) {
             falseAnswers[i].classList.add('red');
         }
+        element.setAttribute('onclick', "");
+        questionsAnswered++;
+        if (questionsAnswered === questionsNumber) {
+            showQuizzResult();
+            scrollId = setTimeout(scrollToResult(), 20 * SECONDS);
+        }
         scrollId = setTimeout(scrollToNextQuestion, 2 * SECONDS, element);
+
     }
     function renderQuestionAnswers(quizzId, questionId) {
         const answersArray = allQuizzes[quizzId].questions[questionId].answers;
@@ -476,10 +508,9 @@ let level = {
     `
         }
     }
-
     function renderQuizzQuestions(quizzId) {
-        const questionsLength = allQuizzes[quizzId].questions.length;
-        for (let i = 0; i < questionsLength; i++) {
+        questionsNumber = allQuizzes[quizzId].questions.length;
+        for (let i = 0; i < questionsNumber; i++) {
             document.querySelector('.questions-container').innerHTML += `
         <li class="question-container" id="question-id${i}">
         <h1 class="question-title" style="background-color:${allQuizzes[quizzId].questions[i].color}">
@@ -495,5 +526,3 @@ let level = {
         }
     }
 }
-
-renderQuizzCreationPage_3_1();
