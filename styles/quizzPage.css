@@ -77,6 +77,7 @@
 }
 .answer-option {
   margin-top: 12px;
+  max-width: 50%;
 }
 .answer-option img {
   width: 163px;
@@ -84,7 +85,9 @@
   z-index: 10;
 }
 .answer-option h3 {
+  max-width: 163px;
   margin-top: 5px;
+ word-wrap: break-word;
 }
 .answer-option.selected {
   z-index: 1;

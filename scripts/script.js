@@ -463,15 +463,16 @@ let newQuizz = {
 }
 // Screen 2 start here
 {
-    let questionsNumber;
+    let questionsNumber, hitPercentage;
     let questionsAnswered = 0;
+    let questionsHitted = 0;
     function goToScreen2() {
         document.querySelector('.style-page').href = './styles/quizzPage.css';
         quizzListGetAllQuizzes_1_1();
     }
 
     function renderQuizzPage(quizzId) {
-
+        window.scrollTo(0, 0);
         document.querySelector('main').innerHTML = `
     <div class="quizz-banner">     
     <img
@@ -520,33 +521,43 @@ let newQuizz = {
             behavior: 'smooth'
         });
     }
-    function showQuizzResult() {
+    function showQuizzResult(resultLevel) {
         document.querySelector('main').innerHTML += `
     <div class="result-container">
-            <h1 class="result-title"> <strong>88% de acerto: Você é praticamente um aluno de Hogwarts!</strong></h1>
-            <img src="https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png" alt="">
-            <p> <strong> Parabéns Potterhead! Bem-vindx a Hogwarts, aproveite o loop infinito de comida e clique no botão abaixo para usar o vira-tempo e reiniciar este teste.</strong></p>
+            <h1 class="result-title"> <strong>${hitPercentage}% de acerto: ${resultLevel.title}</strong></h1>
+            <img src="${resultLevel.image}" alt="">
+            <p> <strong> ${resultLevel.text}</strong></p>
         </div>
         <button class="restart" onclick="goToScreen2()">Reiniciar Quizz</button>
         <button class="go-to-home" onclick="renderQuizzListPage_1_1()">Voltar para home</button>
         `;
     }
+    function calcResult() {
+        hitPercentage = (questionsHitted / questionsNumber) * 100;
+        hitPercentage = Math.round(hitPercentage);
+        const levels = allQuizzes[allQuizzes.length - 1].levels;
+        const clientLevelsAchived = levels.filter(level => { if (level.minValue <= hitPercentage) return true });
+        let higherLevel = clientLevelsAchived[0];
+        for (let i = 1; i < clientLevelsAchived.length; i++) {
+            if (higherLevel.minValue < clientLevelsAchived[i].minValue) higherLevel = clientLevelsAchived[i];
+        }
+        showQuizzResult(higherLevel);
+        scrollId = setTimeout(scrollToResult(), 20 * SECONDS);
+    }
     function chooseAnswer(element) {
+        clearTimeout(scrollId);
         element.classList.add('selected');
         element.parentNode.classList.add('selected');
         const trueAnswer = element.parentNode.querySelector('.true');
         const falseAnswers = element.parentNode.querySelectorAll('.false');
-
         trueAnswer.classList.add('green');
         for (let i = 0; i < falseAnswers.length; i++) {
             falseAnswers[i].classList.add('red');
         }
         element.setAttribute('onclick', "");
+        if (element.querySelector('.true')) questionsHitted++;
         questionsAnswered++;
-        if (questionsAnswered === questionsNumber) {
-            showQuizzResult();
-            scrollId = setTimeout(scrollToResult(), 20 * SECONDS);
-        }
+        if (questionsAnswered === questionsNumber) calcResult();
         scrollId = setTimeout(scrollToNextQuestion, 2 * SECONDS, element);
 
     }
@@ -582,5 +593,4 @@ let newQuizz = {
         }
     }
 }
-
-renderQuizzCreationPage_3_1();
+goToScreen2();
