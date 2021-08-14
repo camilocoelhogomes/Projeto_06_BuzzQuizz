@@ -125,42 +125,52 @@ let level = {
     function transitionPage_3_2_3() {
         const allQuestions = document.querySelectorAll('.new-quizz-input');
 
-        console.log(allQuestions);
 
         let error = false;
 
         for (let i = 0; i < allQuestions.length; i++) {
-            const title = allQuestions[i].querySelector('.quizz-question-text').value;
-            const correctAnswerText = allQuestions[i].querySelector('.quizz-correct-awnser').value;
-            const correctImage = allQuestions[i].querySelector('.quizz-correct-img').value;
+            const title = `Esse é o título da pergunta ${i}`//allQuestions[i].querySelector('.quizz-question-text').value;
+            const correctAnswerText = `esse é o texto da resposta correta ${i}`//allQuestions[i].querySelector('.quizz-correct-awnser').value;
+            const correctImage = 'https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png'//allQuestions[i].querySelector('.quizz-correct-img').value;
 
-            newQuizz.questions[i].color = allQuestions[i].querySelector('.quizz-question-background').value;
 
             if (title < 20) {
                 error = true;
-            } else {
-                newQuizz.questions[i].title = title;
             }
-
             if ((correctAnswerText === '') && (!validURL(correctImage) || !checkURL(correctImage))) {
                 error = true;
             } else {
-                newQuizz.questions[i].answer = [{
+                newQuizz.questions[i].title = title;
+                newQuizz.questions[i].color = allQuestions[i].querySelector('.quizz-question-background').value;
+                let correctAnswer = [{
                     text: correctAnswerText,
                     image: correctImage,
                     isCorrectAnswer: true
                 }]
                 const incorrectAnswer = allQuestions[i].querySelectorAll('.quizz-incorrect-awser');
+                let incorrecAnswerArray = [];
 
                 incorrectAnswer.forEach((item) => {
-                    newQuizz.questions[i].answer.push(
-                        {
-                            text: item.value,
-                            image: item.parentNode.querySelector('.quizz-img').value,
-                            isCorrectAnswer: false
-                        }
-                    )
+                    const incorretText = item.value;
+                    const incorretImg = item.parentNode.querySelector('.quizz-img').value;
+
+                    if (!(incorretText === '') && !(!validURL(incorretImg) || !checkURL(incorretImg))) {
+                        incorrecAnswerArray.push(
+                            {
+                                text: incorretText,
+                                image: incorretImg,
+                                isCorrectAnswer: false
+                            }
+                        )
+                    }
+
                 });
+                console.log(incorrecAnswerArray);
+                if (incorrecAnswerArray === []) {
+                    error = true;
+                } else {
+                    newQuizz.questions[i].answer = correctAnswer.concat(incorrecAnswerArray);
+                }
             }
         }
 
@@ -530,4 +540,3 @@ let level = {
         }
     }
 }
-goToScreen2();
