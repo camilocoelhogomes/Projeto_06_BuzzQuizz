@@ -9,12 +9,6 @@ let newQuizz = {
     levels: []
 }
 
-let level = {
-    title: "",
-    image: "",
-    text: "",
-    minValue: 0
-}
 
 {
     function validURL(str) {
@@ -66,9 +60,61 @@ let level = {
         element.parentNode.parentNode.querySelector('.quis-creation-question-inputs').classList.toggle('show');
     }
 
-    function renderQuizzCreationLevelInputs() {
+    function transitionPage_3_3_4() {
+        const allLevels = document.querySelectorAll('.new-quizz-input');
+        let allValuesMinValue = [];
+        let allLevelsArray = [];
+
+
+        let error = false;
+
+        allLevels.forEach((item) => {
+
+            const title = item.querySelector('.quizz-question-text').value;
+            const image = item.querySelector('.quizz-url').value;
+            const text = item.querySelector('.quizz-level-description').value;
+            const minValue = Number(item.querySelector('.quizz-question-min-value').value);
+            allValuesMinValue.push(minValue);
+
+            if (title.length < 10) {
+                error = true;
+            }
+            if (!validURL(image) || !checkURL(image)) {
+                error = true;
+            }
+            if (minValue < 0 && minValue > 100) {
+                error = true;
+            }
+            if (text.length < 30) {
+                error = true;
+            }
+
+            allLevelsArray.push({
+                title,
+                image,
+                text,
+                minValue,
+            })
+
+        });
+
+        if (allLevelsArray.indexOf(0) === -1) {
+            error = true;
+        }
+
+        if (error) {
+            alert('Informaões inseridas incorretas');
+        }
+        else {
+            newQuizz.levels = allLevelsArray;
+        }
+
+
+    }
+
+    function renderQuizzCreationLevelInputs(numberLevels) {
         let levelInputs = ''
-        for (let i = 1; i <= 3; i++) {
+        for (let i = 1; i <= numberLevels; i++) {
             levelInputs += `
         <li class='new-quizz-input'>
 
@@ -85,9 +131,9 @@ let level = {
             <div class="quis-creation-question-inputs hide ${i === 1 ? 'show' : ''}">
 
                 <input class="new-quizz-input-field quizz-question-text" type="text" placeholder="Título do nível">
-                <input class="new-quizz-input-field quizz-question-background" type="text"
+                <input class="new-quizz-input-field quizz-question-min-value" type="number"
                     placeholder="% de acerto mínima">
-                <input class="new-quizz-input-field quizz-corret-awnser" type="text"
+                <input class="new-quizz-input-field quizz-url" type="text"
                     placeholder="URL da imagem do nível">
                 <textarea class="new-quizz-input-field quizz-level-description" type="text"
                     placeholder="Descrição do nível"></textarea>
@@ -101,7 +147,7 @@ let level = {
 
     }
 
-    function renderQuizzCreationLevelPage() {
+    function renderQuizzCreationLevelPage(numberLevels) {
 
         document.querySelector('.style-page').href = './styles/quizzCreation.css';
 
@@ -114,13 +160,12 @@ let level = {
 
         </ul>
 
-        <button onclick="renderQuizzCreationEndPage()" class="new-quizz-go-to-create-questions">Finalizar Quizz</button>
+        <button onclick="transitionPage_3_3_4()" class="new-quizz-go-to-create-questions">Finalizar Quizz</button>
     `;
 
-        renderQuizzCreationLevelInputs();
+        renderQuizzCreationLevelInputs(numberLevels);
         window.scrollTo(0, 0);
     }
-
 
     function transitionPage_3_2_3() {
         const allQuestions = document.querySelectorAll('.new-quizz-input');
@@ -151,8 +196,8 @@ let level = {
                 let incorrecAnswerArray = [];
 
                 incorrectAnswer.forEach((item) => {
-                    const incorretText = item.value;
-                    const incorretImg = item.parentNode.querySelector('.quizz-img').value;
+                    const incorretText = 'Esse é o título da resposta incorreta'//item.value;
+                    const incorretImg = 'https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png'//item.parentNode.querySelector('.quizz-img').value;
 
                     if (!(incorretText === '') && !(!validURL(incorretImg) || !checkURL(incorretImg))) {
                         incorrecAnswerArray.push(
@@ -165,8 +210,9 @@ let level = {
                     }
 
                 });
-                console.log(incorrecAnswerArray);
-                if (incorrecAnswerArray === []) {
+
+
+                if (incorrecAnswerArray.length === 0) {
                     error = true;
                 } else {
                     newQuizz.questions[i].answer = correctAnswer.concat(incorrecAnswerArray);
@@ -178,9 +224,9 @@ let level = {
             alert('Informações inseridas invalidas');
         }
         else {
-            alert('Tudo Certo!')
+            renderQuizzCreationLevelPage(newQuizz.levels.length);
         }
-        console.log(newQuizz.questions);
+
 
     }
 
@@ -292,9 +338,9 @@ let level = {
         if (!test) {
             alert('Informações inseridas invalidas');
         }
-        else if (test) {
+        if (test) {
             newQuizz.title = title;
-            newQuizz.imgage = url;
+            newQuizz.image = url;
 
 
             for (let i = 0; i < numberQuestions; i++) {
