@@ -93,12 +93,12 @@ let newQuizz = {
 
         let error = false;
 
-        allLevels.forEach((item, k) => {
+        allLevels.forEach((item) => {
 
-            const title = `Título do nível ${k + 1}`//item.querySelector('.quizz-question-text').value;
-            const image = `https://http.cat/412.jpg`//item.querySelector('.quizz-url').value;
-            const text = `Descrição 39098234502345-20398450-239854 do nível ${k + 1}`//item.querySelector('.quizz-level-description').value;
-            const minValue = 50 * k//Number(item.querySelector('.quizz-question-min-value').value);
+            const title = item.querySelector('.quizz-question-text').value;
+            const image = item.querySelector('.quizz-url').value;
+            const text = item.querySelector('.quizz-level-description').value;
+            const minValue = Number(item.querySelector('.quizz-question-min-value').value);
             allValuesMinValue.push(minValue);
 
             if (title.length < 10) {
@@ -204,9 +204,9 @@ let newQuizz = {
         let error = false;
 
         for (let i = 0; i < allQuestions.length; i++) {
-            const title = `Título da pergunta 1 ${i}`//allQuestions[i].querySelector('.quizz-question-text').value;
-            const correctAnswerText = `Texto da resposta ${i}`//allQuestions[i].querySelector('.quizz-correct-awnser').value;
-            const correctImage = 'https://http.cat/411.jpg'//allQuestions[i].querySelector('.quizz-correct-img').value;
+            const title = allQuestions[i].querySelector('.quizz-question-text').value;
+            const correctAnswerText = allQuestions[i].querySelector('.quizz-correct-awnser').value;
+            const correctImage = allQuestions[i].querySelector('.quizz-correct-img').value;
 
 
             if (title < 20) {
@@ -226,8 +226,8 @@ let newQuizz = {
                 let incorrecAnswerArray = [];
 
                 incorrectAnswer.forEach((item, k) => {
-                    const incorretText = `Texto da resposta ${k + 1}`//item.value;
-                    const incorretImg = 'https://http.cat/411.jpg'//item.parentNode.querySelector('.quizz-img').value;
+                    const incorretText = item.value;
+                    const incorretImg = item.parentNode.querySelector('.quizz-img').value;
 
                     if (!(incorretText === '') && !(!validURL(incorretImg) || !checkURL(incorretImg))) {
                         incorrecAnswerArray.push(
@@ -344,10 +344,10 @@ let newQuizz = {
 
     function transitionPage_3_1_2() {
         let test = true;
-        const title = 'Título do quizz da página'; //document.querySelector('.quizz-title').value;
-        const url = 'https://http.cat/411.jpg'; //document.querySelector('.quizz-img').value;
-        const numberQuestions = 3; //Number(document.querySelector('.quizz-questions').value);
-        const numberLevels = 2; //Number(document.querySelector('.quizz-level').value);
+        const title = document.querySelector('.quizz-title').value;
+        const url = document.querySelector('.quizz-img').value;
+        const numberQuestions = Number(document.querySelector('.quizz-questions').value);
+        const numberLevels = Number(document.querySelector('.quizz-level').value);
 
         if (title.length < 20 || title.length > 60) {
             test = false;
