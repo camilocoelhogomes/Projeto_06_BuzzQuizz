@@ -34,7 +34,7 @@ let newQuizz = {
             <h2 class="new-quizz-title">Seu quizz está pronto!</h2>
         </header>
 
-        <ul class="new-quizz-form">
+        <ul class="new-quizz-form padding">
             <li class='single-quizz' id = "${newQuizz.id}" onclick="goToScreen2(${newQuizz.id})">
                 <figure class = 'single-quizz-figure'>
                     <img class = 'single-quizz-img' src="${newQuizz.image}" alt="Imagem de Fundo do Quizz">
@@ -429,21 +429,49 @@ let newQuizz = {
 {
     function quizzListRenderAllQuizzes_1_1() {
         let allQuizzesList = '';
+        let userQuizzes = '';
+        let userQuizzesList
 
-        for (let i = 0; i < allQuizzes.length; i++) {
-            allQuizzesList += `
-            <li class='single-quizz' id = "${allQuizzes[i].id}" onclick="goToScreen2(${allQuizzes[i].id})">
-                <figure class = 'single-quizz-figure'>
-                    <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
-                </figure>
-
-                <header class = 'single-quizz-header'>
-                    <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
-                </header>
-            </li>
-        `
+        if (!localStorage.getItem('userQuizzes')) {
+            userQuizzesList = [];
+        }
+        else {
+            userQuizzesList = JSON.parse(localStorage.getItem('userQuizzes'))
         }
 
+        console.log(userQuizzesList);
+        for (let i = 0; i < allQuizzes.length; i++) {
+
+            if (userQuizzesList.includes(allQuizzes[i].id)) {
+                userQuizzes += `
+                <li class='single-quizz' id = "${allQuizzes[i].id}" onclick="goToScreen2(${allQuizzes[i].id})">
+                    <figure class = 'single-quizz-figure'>
+                        <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
+                    </figure>
+
+                    <header class = 'single-quizz-header'>
+                        <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
+                    </header>
+                </li>
+                `
+
+            } else {
+                allQuizzesList += `
+                <li class='single-quizz' id = "${allQuizzes[i].id}" onclick="goToScreen2(${allQuizzes[i].id})">
+                    <figure class = 'single-quizz-figure'>
+                        <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
+                    </figure>
+    
+                    <header class = 'single-quizz-header'>
+                        <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
+                    </header>
+                </li>
+            `
+            }
+
+        }
+
+        document.querySelector('.all-quizzes-user').innerHTML = userQuizzes;
         document.querySelector('.all-quizzes-list').innerHTML = allQuizzesList;
     }
 
@@ -462,30 +490,56 @@ let newQuizz = {
     function renderQuizzListPage_1_1() {
 
         document.querySelector('.style-page').href = './styles/quizzList.css'
+        let createNewQuizzArea = '';
 
-        document.querySelector('main').innerHTML = `
+        if (!localStorage.getItem('userQuizzes')) {
+            createNewQuizzArea = `
+                <article class="create-new-quizz">
+                        
+                    <header class="create-new-quizz-header">
+                        <h2 class="create-new-quizz-title">Você não criou nenhum quizz ainda :(</h2>
+                    </header>
+    
+                    <button onclick="renderQuizzCreationPage_3_1()" class="create-new-quizz-button">Criar Quizz</button>
+                
+                </article>
+            `
+        } else {
+            createNewQuizzArea = `
+                <article class="user-quizzes all-quizzes">
 
-        <article class="create-new-quizz">
-            
-            <header class="create-new-quizz-header">
-                <h2 class="create-new-quizz-title">Você não criou nenhum quizz ainda :(</h2>
-            </header>
+                    <header class="all-quizzes-title">
+                        <h2>Seus Quizzes</h2>
+                        <button class='new-quizz-circle-button' onclick="renderQuizzCreationPage_3_1()">
+                            <ion-icon class="new-quizz-pluss-sign" name="add-circle-sharp"></ion-icon>
+                        </button>
+                    </header>
 
-            <button onclick="renderQuizzCreationPage_3_1()" class="create-new-quizz-button">Criar Quizz</button>
-        
-        </article>
+                    <ul class="all-quizzes-user">
+                    </ul>
 
-        <article class="all-quizzes">
+                </article>
+            `
+        }
 
-            <header class="all-quizzes-title">
-                <h2>Todos os Quizzes</h2>
-            </header>
 
-            <ul class="all-quizzes-list">
-            </ul>
+        const allQuizzArea = `
+            <article class="all-quizzes">
 
-        </article>
-    `
+                <header class="all-quizzes-title">
+                    <h2>Todos os Quizzes</h2>
+                </header>
+
+                <ul class="all-quizzes-list">
+                </ul>
+
+            </article>
+        `
+
+
+        document.querySelector('main').innerHTML = createNewQuizzArea + allQuizzArea;
+
+        window.scrollTo(0, 0);
 
         quizzListGetAllQuizzes_1_1();
     }

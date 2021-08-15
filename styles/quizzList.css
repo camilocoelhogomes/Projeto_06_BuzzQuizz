@@ -50,4 +50,22 @@ main{
     font-weight: bold;
     font-size: 20px;
     margin: 0px 0px 14px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-quizzes{
+    margin:91px 18px 0px 18px;
+}
+
+.new-quizz-circle-button{
+    border: none;
+    background-color: rgba(255,255,255,0);
+    padding: 0;
+}
+
+.new-quizz-pluss-sign{
+    font-size: 30px;
+    color: #ec362d;
 }
