@@ -471,7 +471,10 @@ let newQuizz = {
 
         }
 
-        document.querySelector('.all-quizzes-user').innerHTML = userQuizzes;
+        if (userQuizzesList.length > 0) {
+            document.querySelector('.all-quizzes-user').innerHTML = userQuizzes;
+        }
+
         document.querySelector('.all-quizzes-list').innerHTML = allQuizzesList;
     }
 
@@ -538,9 +541,7 @@ let newQuizz = {
 
 
         document.querySelector('main').innerHTML = createNewQuizzArea + allQuizzArea;
-
         window.scrollTo(0, 0);
-
         quizzListGetAllQuizzes_1_1();
     }
 }
