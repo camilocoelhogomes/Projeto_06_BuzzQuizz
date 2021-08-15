@@ -3,6 +3,7 @@ const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/qu
 let scrollId;
 let allQuizzes;
 
+
 let newQuizz = {
     title: '',
     image: '',
@@ -61,6 +62,27 @@ let newQuizz = {
         element.parentNode.parentNode.querySelector('.quis-creation-question-inputs').classList.toggle('show');
     }
 
+    function saveDataInPc(data) {
+        console.log(data.data.id);
+        if (!localStorage.getItem('userQuizzes')) {
+            let userQuizzesArray = [];
+            userQuizzesArray.push(data.data.id);
+            userQuizzes = JSON.stringify(userQuizzesArray);
+            localStorage.setItem('userQuizzes', userQuizzes);
+        }
+        else {
+            let userQuizzes = localStorage.getItem('userQuizzes');
+            let userQuizzesArray = JSON.parse(userQuizzes)
+            userQuizzesArray.push(data.data.id);
+            userQuizzes = JSON.stringify(userQuizzesArray);
+            localStorage.setItem('userQuizzes', userQuizzes);
+        }
+    }
+
+    function sendQuizzToServer() {
+        axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes', newQuizz).then((data) => { saveDataInPc(data) });
+    }
+
     function transitionPage_3_3_4() {
         const allLevels = document.querySelectorAll('.new-quizz-input');
         let allValuesMinValue = [];
@@ -69,25 +91,28 @@ let newQuizz = {
 
         let error = false;
 
-        allLevels.forEach((item) => {
+        allLevels.forEach((item, k) => {
 
-            const title = item.querySelector('.quizz-question-text').value;
-            const image = item.querySelector('.quizz-url').value;
-            const text = item.querySelector('.quizz-level-description').value;
-            const minValue = Number(item.querySelector('.quizz-question-min-value').value);
+            const title = `Título do nível ${k + 1}`//item.querySelector('.quizz-question-text').value;
+            const image = `https://http.cat/412.jpg`//item.querySelector('.quizz-url').value;
+            const text = `Descrição 39098234502345-20398450-239854 do nível ${k + 1}`//item.querySelector('.quizz-level-description').value;
+            const minValue = 50 * k//Number(item.querySelector('.quizz-question-min-value').value);
             allValuesMinValue.push(minValue);
 
             if (title.length < 10) {
+                console.log(1);
                 error = true;
             }
             if (!validURL(image) || !checkURL(image)) {
                 error = true;
+                console.log(2);
             }
             if (minValue < 0 && minValue > 100) {
                 error = true;
             }
             if (text.length < 30) {
                 error = true;
+                console.log(3);
             }
 
             allLevelsArray.push({
@@ -99,8 +124,9 @@ let newQuizz = {
 
         });
 
-        if (allLevelsArray.indexOf(0) === -1) {
+        if (allValuesMinValue.indexOf(0) === -1) {
             error = true;
+            console.log(4);
         }
 
         if (error) {
@@ -108,6 +134,7 @@ let newQuizz = {
         }
         else {
             newQuizz.levels = allLevelsArray;
+            sendQuizzToServer();
         }
 
 
@@ -175,9 +202,9 @@ let newQuizz = {
         let error = false;
 
         for (let i = 0; i < allQuestions.length; i++) {
-            const title = `Esse é o título da pergunta ${i}`//allQuestions[i].querySelector('.quizz-question-text').value;
-            const correctAnswerText = `esse é o texto da resposta correta ${i}`//allQuestions[i].querySelector('.quizz-correct-awnser').value;
-            const correctImage = 'https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png'//allQuestions[i].querySelector('.quizz-correct-img').value;
+            const title = `Título da pergunta 1 ${i}`//allQuestions[i].querySelector('.quizz-question-text').value;
+            const correctAnswerText = `Texto da resposta ${i}`//allQuestions[i].querySelector('.quizz-correct-awnser').value;
+            const correctImage = 'https://http.cat/411.jpg'//allQuestions[i].querySelector('.quizz-correct-img').value;
 
 
             if (title < 20) {
@@ -196,9 +223,9 @@ let newQuizz = {
                 const incorrectAnswer = allQuestions[i].querySelectorAll('.quizz-incorrect-awser');
                 let incorrecAnswerArray = [];
 
-                incorrectAnswer.forEach((item) => {
-                    const incorretText = 'Esse é o título da resposta incorreta'//item.value;
-                    const incorretImg = 'https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png'//item.parentNode.querySelector('.quizz-img').value;
+                incorrectAnswer.forEach((item, k) => {
+                    const incorretText = `Texto da resposta ${k + 1}`//item.value;
+                    const incorretImg = 'https://http.cat/411.jpg'//item.parentNode.querySelector('.quizz-img').value;
 
                     if (!(incorretText === '') && !(!validURL(incorretImg) || !checkURL(incorretImg))) {
                         incorrecAnswerArray.push(
@@ -216,7 +243,7 @@ let newQuizz = {
                 if (incorrecAnswerArray.length === 0) {
                     error = true;
                 } else {
-                    newQuizz.questions[i].answer = correctAnswer.concat(incorrecAnswerArray);
+                    newQuizz.questions[i].answers = correctAnswer.concat(incorrecAnswerArray);
                 }
             }
         }
@@ -315,8 +342,8 @@ let newQuizz = {
 
     function transitionPage_3_1_2() {
         let test = true;
-        const title = 'Meu mais novo quizz para teste'; //document.querySelector('.quizz-title').value;
-        const url = 'https://www.publicdomainpictures.net/pictures/320000/velka/background-image.png'; //document.querySelector('.quizz-img').value;
+        const title = 'Título do quizz da página'; //document.querySelector('.quizz-title').value;
+        const url = 'https://http.cat/411.jpg'; //document.querySelector('.quizz-img').value;
         const numberQuestions = 3; //Number(document.querySelector('.quizz-questions').value);
         const numberLevels = 2; //Number(document.querySelector('.quizz-level').value);
 
@@ -462,15 +489,15 @@ let newQuizz = {
     }
 }
 // Screen 2 start here
-{   
+{
     let quizzSelected;
     let questionsNumber, hitPercentage;
     let questionsAnswered = 0;
     let questionsHitted = 0;
-    
+
     function goToScreen2(quizzId) {
         document.querySelector('.style-page').href = './styles/quizzPage.css';
-        let promise = axios.get(API_URL+quizzId);
+        let promise = axios.get(API_URL + quizzId);
         promise.then(renderQuizzPage)
     }
 
