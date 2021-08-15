@@ -35,19 +35,19 @@ let newQuizz = {
         </header>
 
         <ul class="new-quizz-form">
-            <li class='single-quizz'>
-                <figure class='single-quizz-figure'>
-                    <img class='single-quizz-img' src="" alt="Imagem de Fundo do Quizz">
+            <li class='single-quizz' id = "${newQuizz.id}" onclick="goToScreen2(${newQuizz.id})">
+                <figure class = 'single-quizz-figure'>
+                    <img class = 'single-quizz-img' src="${newQuizz.image}" alt="Imagem de Fundo do Quizz">
                 </figure>
 
-                <header class='single-quizz-header'>
-                    <h3 class='single-quizz-title'></h3>
+                <header class = 'single-quizz-header'>
+                    <h3 class = 'single-quizz-title'>${newQuizz.title}</h3>
                 </header>
             </li>
         </ul>
         
         <div class="buttons">
-            <button class="new-quizz-go-to-quizz">Acessar Quizz</button>
+            <button onclick="goToScreen2(${newQuizz.id})" class="new-quizz-go-to-quizz">Acessar Quizz</button>
             <button onclick="renderQuizzListPage_1_1()" class="new-quizz-go-to-home">Voltar para a Home</button>
         </div>
     `;
@@ -77,6 +77,8 @@ let newQuizz = {
             userQuizzes = JSON.stringify(userQuizzesArray);
             localStorage.setItem('userQuizzes', userQuizzes);
         }
+        newQuizz = data.data;
+        renderQuizzCreationEndPage();
     }
 
     function sendQuizzToServer() {

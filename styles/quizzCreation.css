@@ -1,5 +1,5 @@
 main{
-    background-color: #fafafa;
+    background-color: initial;
     height: 100vh;
 }
 
@@ -20,8 +20,9 @@ main{
 }
 
 .new-quizz-form{
-    background-color: #fafafa;
+    background-color:initial;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+    padding: 0px 18px;
 }
 
 
