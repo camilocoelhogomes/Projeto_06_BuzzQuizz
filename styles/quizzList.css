@@ -92,6 +92,10 @@ main{
     font-size: 22px;
 }
 
+.position-absolute{
+    position: absolute;
+}
+
 @media(max-width: 1100px){
     
     main{

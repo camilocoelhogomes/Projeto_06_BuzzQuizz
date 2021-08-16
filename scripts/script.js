@@ -65,14 +65,14 @@ const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList
     function saveDataInPc(data) {
         if (!localStorage.getItem('userQuizzes')) {
             let userQuizzesArray = [];
-            userQuizzesArray.push(data.data.id);
+            userQuizzesArray.push({ id: data.data.id, key: data.data.key });
             userQuizzes = JSON.stringify(userQuizzesArray);
             localStorage.setItem('userQuizzes', userQuizzes);
         }
         else {
             let userQuizzes = localStorage.getItem('userQuizzes');
             let userQuizzesArray = JSON.parse(userQuizzes)
-            userQuizzesArray.push(data.data.id);
+            userQuizzesArray.push({ id: data.data.id, key: data.data.key });
             userQuizzes = JSON.stringify(userQuizzesArray);
             localStorage.setItem('userQuizzes', userQuizzes);
         }
@@ -431,33 +431,40 @@ const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList
     function quizzListRenderAllQuizzes_1_1() {
         let allQuizzesList = '';
         let userQuizzes = '';
-        let userQuizzesList
+        let userQuizzesList;
+        let userQuizzesIds = [];
+        let userQuizzesKeys = [];
 
         if (!localStorage.getItem('userQuizzes')) {
             userQuizzesList = [];
         }
         else {
-            userQuizzesList = JSON.parse(localStorage.getItem('userQuizzes'))
+            userQuizzesList = JSON.parse(localStorage.getItem('userQuizzes'));
+            for (let i = 0; i < userQuizzesList.length; i++) {
+                userQuizzesIds.push(userQuizzesList[i].id);
+                userQuizzesKeys.push(userQuizzesList[i].key);
+            }
         }
 
         for (let i = 0; i < allQuizzes.length; i++) {
 
-            if (userQuizzesList.includes(allQuizzes[i].id)) {
+            if (userQuizzesIds.includes(allQuizzes[i].id)) {
                 userQuizzes += `
-                <li class='single-quizz' id = "${allQuizzes[i].id}" onclick="goToScreen2(${allQuizzes[i].id})">
-                    <figure class = 'single-quizz-figure'>
-                        <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
-                    </figure>
-                    
-                    <button class="delete-button" onclick = 'deleteQuizz(${allQuizzes[i].id})'>
+                <li class='single-quizz' id = "${allQuizzes[i].id}" >
+                    <div class = 'position-absolute' onclick="goToScreen2(${allQuizzes[i].id})">
+                        <figure class = 'single-quizz-figure'>
+                            <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
+                        </figure>
+ 
+                        <header class = 'single-quizz-header'>
+                            <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
+                        </header>
+                    </div>
+
+                    <button class="delete-button" onclick = 'deleteQuizz(${userQuizzesKeys[userQuizzesIds.indexOf(allQuizzes[i].id)]})'>
                         <ion-icon class="trash" name="trash"></ion-icon>
                     </button>
-        
-        
-
-                    <header class = 'single-quizz-header'>
-                        <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
-                    </header>
+                    
                 </li>
                 `
 
