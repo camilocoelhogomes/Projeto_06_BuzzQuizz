@@ -142,7 +142,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         }
 
         if (error) {
-            alert('Informaões inseridas incorretas');
+
         }
         else {
             newQuizz.levels = allLevelsArray;
@@ -288,7 +288,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         }
 
         if (error) {
-            alert('Informações inseridas invalidas');
+
         }
         else {
             renderQuizzCreationLevelPage(newQuizz.levels.length);
@@ -461,7 +461,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         }
 
         if (!test) {
-            alert('Informações inseridas invalidas');
+
         }
         if (test) {
             newQuizz.title = title;
@@ -829,4 +829,4 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         }
     }
 }
-renderQuizzCreationPage_3_1();
+renderQuizzListPage_1_1();
