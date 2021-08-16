@@ -63,6 +63,9 @@ let newQuizz = {
     function saveDataInPc(data) {
         if (!localStorage.getItem('userQuizzes')) {
             let userQuizzesArray = [];
+            userQuizzesArray.push(data.data.id);
+            userQuizzes = JSON.stringify(userQuizzesArray);
+            localStorage.setItem('userQuizzes', userQuizzes);
         }
         else {
             let userQuizzes = localStorage.getItem('userQuizzes');
