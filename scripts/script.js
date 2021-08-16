@@ -471,8 +471,20 @@ let newQuizz = {
 
         }
 
-        if (userQuizzesList.length > 0) {
+        if (userQuizzes.length > 0) {
             document.querySelector('.all-quizzes-user').innerHTML = userQuizzes;
+        } else {
+            document.querySelector('.user-quizzes').innerHTML = `
+            <article class="create-new-quizz">
+                            
+                <header class="create-new-quizz-header">
+                    <h2 class="create-new-quizz-title">Você não criou nenhum quizz ainda :(</h2>
+                </header>
+
+                <button onclick="renderQuizzCreationPage_3_1()" class="create-new-quizz-button">Criar Quizz</button>
+            
+            </article>
+            `
         }
 
         document.querySelector('.all-quizzes-list').innerHTML = allQuizzesList;
@@ -681,4 +693,4 @@ let newQuizz = {
         }
     }
 }
-renderQuizzListPage_1_1();
+renderQuizzCreationPage_3_1();
