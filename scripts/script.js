@@ -213,10 +213,19 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         item.classList.add('error-background');
     }
 
+    function removeErrorMessage() {
+        const spanDiv = document.querySelectorAll('.span-div');
+        spanDiv.forEach(item => {
+            item.querySelector('span').classList.add('hide');
+            item.querySelector('input').classList.remove('error-background');
+
+        })
+    }
+
     function transitionPage_3_2_3() {
         const allQuestions = document.querySelectorAll('.new-quizz-input');
 
-
+        removeErrorMessage();
         let error = false;
 
         for (let i = 0; i < allQuestions.length; i++) {
@@ -229,43 +238,53 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
                 error = true;
                 errorMessage(allQuestions[i].querySelector('.quizz-question-text'));
             }
-            if ((correctAnswerText === '') && (!validURL(correctImage) || !checkURL(correctImage))) {
+            if ((correctAnswerText === '')) {
                 error = true;
-
-            } else {
-                newQuizz.questions[i].title = title;
-                newQuizz.questions[i].color = allQuestions[i].querySelector('.quizz-question-background').value;
-                let correctAnswer = [{
-                    text: correctAnswerText,
-                    image: correctImage,
-                    isCorrectAnswer: true
-                }]
-                const incorrectAnswer = allQuestions[i].querySelectorAll('.quizz-incorrect-awser');
-                let incorrecAnswerArray = [];
-
-                incorrectAnswer.forEach((item, k) => {
-                    const incorretText = item.value;
-                    const incorretImg = item.parentNode.querySelector('.quizz-img').value;
-
-                    if (!(incorretText === '') && !(!validURL(incorretImg) || !checkURL(incorretImg))) {
-                        incorrecAnswerArray.push(
-                            {
-                                text: incorretText,
-                                image: incorretImg,
-                                isCorrectAnswer: false
-                            }
-                        )
-                    }
-
-                });
-
-
-                if (incorrecAnswerArray.length === 0) {
-                    error = true;
-                } else {
-                    newQuizz.questions[i].answers = correctAnswer.concat(incorrecAnswerArray);
-                }
+                errorMessage(allQuestions[i].querySelector('.quizz-correct-awnser'));
             }
+            if (!validURL(correctImage) || !checkURL(correctImage)) {
+                error = true;
+                errorMessage(allQuestions[i].querySelector('.quizz-correct-img'));
+            }
+
+
+            newQuizz.questions[i].title = title;
+            newQuizz.questions[i].color = allQuestions[i].querySelector('.quizz-question-background').value;
+            let correctAnswer = [{
+                text: correctAnswerText,
+                image: correctImage,
+                isCorrectAnswer: true
+            }]
+            const incorrectAnswer = allQuestions[i].querySelectorAll('.quizz-incorrect-awser');
+            let incorrecAnswerArray = [];
+
+            incorrectAnswer.forEach((item, k) => {
+                const incorretText = item.value;
+                const incorretImg = item.parentNode.querySelector('.quizz-img');
+
+                if (!(incorretText === '') && !(!validURL(incorretImg) || !checkURL(incorretImg))) {
+                    incorrecAnswerArray.push(
+                        {
+                            text: incorretText,
+                            image: incorretImg,
+                            isCorrectAnswer: false
+                        }
+                    )
+                }
+
+            });
+
+
+            if (incorrecAnswerArray.length === 0) {
+                error = true;
+                const allIncorrect = document.querySelectorAll('.quizz-incorrect-awser');
+                const allIncorrectImg = document.querySelectorAll('.quizz-img');
+                allIncorrect.forEach(item => { errorMessage(item) });
+                allIncorrectImg.forEach(item => { errorMessage(item) });
+            } else {
+                newQuizz.questions[i].answers = correctAnswer.concat(incorrecAnswerArray);
+            }
+
         }
 
         if (error) {
@@ -297,48 +316,74 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
                 <div class="quis-creation-question-inputs hide ${i === 1 ? 'show' : ''}">
 
                     <div class="quizz-creation-question-pair-input">
+                    <div class='span-div'>
                         <input class="new-quizz-input-field quizz-question-text" type="text"
                             placeholder="Texto da pergunta">
-                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
+                            <span class="text-error quizz-title hide">O título do quizz deve ter mais de 20 caracteres</span>
+                    </div>
+                    <div class='span-div'>
                         <input class="new-quizz-input-field quizz-question-background" type="color"
                             placeholder="Cor de fundo da pergunta">
-                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
-                    </div>
+                            <span class="text-error quizz-title hide">A cor deve ser no formato Hexadecimal</span>
+                    </div class='span-div'>
+
 
                     <h3 class="quizz-creation-question-title">Resposta Correta</h3>
 
                     <div class="quizz-creation-question-pair-input">
-                        <input class="new-quizz-input-field quizz-correct-awnser" type="text"
-                            placeholder="Resposta correta">
-                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
-                        <input class="new-quizz-input-field quizz-correct-img" type="text" placeholder="URL da imagem">
-                        <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-correct-awnser" type="text"
+                                placeholder="Resposta correta">
+                                <span class="text-error quizz-title hide">Não pode estar vazio</span>
+                        </div>
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-correct-img" type="text" placeholder="URL da imagem">
+                            <span class="text-error quizz-title hide">Essa URL não é válida, tente outra.</span>
+                        </div>
                     </div>
 
                     <h3 class="quizz-creation-question-title">Respostas Incorretas</h3>
 
                     <div class="quizz-creation-question-pair-input">
-                        <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
-                            placeholder="Resposta incorreta 1">
-                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
-                        <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 1">
-                        <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
+                                placeholder="Resposta incorreta 1">
+                            <span class="text-error quizz-title hide">Deve haver ao menos uma resposta incorreta</span>
+                        </div>
+                        
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 1">
+                            <div>
+                            <span class="text-error quizz-title hide">Essa URL não é válida, tente outra.</span>
+                        </div>
                     </div>
 
                     <div class="quizz-creation-question-pair-input">
-                        <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
-                            placeholder="Resposta incorreta 2">
-                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
-                        <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 2">
-                        <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
+                                placeholder="Resposta incorreta 1">
+                            <span class="text-error quizz-title hide">Deve haver ao menos uma resposta incorreta</span>
+                        </div>
+                        
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 1">
+                            <div>
+                            <span class="text-error quizz-title hide">Essa URL não é válida, tente outra.</span>
+                        </div>
                     </div>
 
                     <div class="quizz-creation-question-pair-input">
-                        <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
-                            placeholder="Resposta incorreta 3">
-                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
-                        <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 3">
-                        <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
+                                placeholder="Resposta incorreta 1">
+                            <span class="text-error quizz-title hide">Deve haver ao menos uma resposta incorreta</span>
+                        </div>
+                        
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 1">
+                            <div>
+                            <span class="text-error quizz-title hide">Essa URL não é válida, tente outra.</span>
+                        </div>
                     </div>
 
                 </div>
@@ -784,4 +829,4 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         }
     }
 }
-renderQuizzCreationQuestionsPage_3_2(3);
+renderQuizzCreationPage_3_1();
