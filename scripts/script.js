@@ -693,4 +693,4 @@ let newQuizz = {
         }
     }
 }
-renderQuizzCreationPage_3_1();
+renderQuizzListPage_1_1();
