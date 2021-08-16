@@ -66,7 +66,6 @@ let newQuizz = {
         console.log(data.data);
         if (!localStorage.getItem('userQuizzes')) {
             let userQuizzesArray = [];
-            const quizzId = `${data.data.id}`
             userQuizzesArray.push({ id: data.data.id, key: data.data.key });
             userQuizzes = JSON.stringify(userQuizzesArray);
             localStorage.setItem('userQuizzes', userQuizzes);
@@ -74,7 +73,7 @@ let newQuizz = {
         else {
             let userQuizzes = localStorage.getItem('userQuizzes');
             let userQuizzesArray = JSON.parse(userQuizzes)
-            userQuizzesArray.push(data.data.id);
+            userQuizzesArray.push({ id: data.data.id, key: data.data.key });
             userQuizzes = JSON.stringify(userQuizzesArray);
             localStorage.setItem('userQuizzes', userQuizzes);
         }
@@ -435,19 +434,25 @@ let newQuizz = {
     function quizzListRenderAllQuizzes_1_1() {
         let allQuizzesList = '';
         let userQuizzes = '';
-        let userQuizzesList
+        let userQuizzesList;
+        let userQuizzesIds = [];
+        let userQuizzesKeys = [];
 
         if (!localStorage.getItem('userQuizzes')) {
             userQuizzesList = [];
         }
         else {
-            userQuizzesList = JSON.parse(localStorage.getItem('userQuizzes'))
+            userQuizzesList = JSON.parse(localStorage.getItem('userQuizzes'));
+            for (let i = 0; i < userQuizzesList.length; i++) {
+                userQuizzesIds.push(userQuizzesList[i].id);
+                userQuizzesKeys.push(userQuizzesList[i].key);
+            }
         }
 
         console.log(userQuizzesList);
         for (let i = 0; i < allQuizzes.length; i++) {
 
-            if (userQuizzesList.includes(allQuizzes[i].id)) {
+            if (userQuizzesIds.includes(allQuizzes[i].id)) {
                 userQuizzes += `
                 <li class='single-quizz' id = "${allQuizzes[i].id}" >
                     <div class = 'position-absolute' onclick="goToScreen2(${allQuizzes[i].id})">
@@ -460,7 +465,7 @@ let newQuizz = {
                         </header>
                     </div>
 
-                    <button class="delete-button" onclick = 'deleteQuizz(${allQuizzes[i].id})'>
+                    <button class="delete-button" onclick = 'deleteQuizz(${userQuizzesKeys[userQuizzesIds.indexOf(allQuizzes[i].id)]})'>
                         <ion-icon class="trash" name="trash"></ion-icon>
                     </button>
                     
