@@ -169,17 +169,21 @@
     font-size: 20px;
   }
   .result-content {
+    width:100%;
     display: flex;
-    justify-content: space-between;
+    
   }
   .result-container p {
     font-size: 19px;
     line-height: 25px;
+    max-width: 300px;
+    word-wrap: break-word;
   }
   .result-container img {
     width: 364px;
     height: 273px;
     margin-right: 21px;
+    margin-bottom: 0;
   }
   .restart {
     width: 261px;
