@@ -92,7 +92,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
             axios.post(API_URL, newQuizz).then((data) => { saveDataInPc(data) });
             toggleLoadingPage();
         } else {
-            axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/${editingQuizz.id}`, newQuizz, {
+            axios.put(`${API_URL}/${editingQuizz.id}`, newQuizz, {
                 headers: { 'Secret-Key': editingQuizz.key }
             }).then(renderQuizzListPage_1_1);
             toggleLoadingPage();
@@ -104,7 +104,6 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         let allValuesMinValue = [];
         let allLevelsArray = [];
 
-
         let error = false;
 
         allLevels.forEach((item) => {
@@ -114,19 +113,22 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
             const text = item.querySelector('.quizz-level-description').value;
             const minValue = Number(item.querySelector('.quizz-question-min-value').value);
             allValuesMinValue.push(minValue);
-
             if (title.length < 10) {
                 error = true;
+                errorMessage(item.querySelector('.quizz-question-text'));
             }
             if (!validURL(image) || !checkURL(image)) {
                 error = true;
+                errorMessage(item.querySelector('.quizz-url'));
 
             }
-            if (minValue < 0 && minValue > 100) {
+            if (minValue < 0 || minValue > 100) {
                 error = true;
+                errorMessage(item.querySelector('.quizz-question-min-value'));
             }
             if (text.length < 30) {
                 error = true;
+                errorMessage(item.querySelector('.quizz-level-description'));
             }
 
             allLevelsArray.push({
@@ -171,14 +173,25 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
             </header>
 
             <div class="quis-creation-question-inputs hide ${i === 1 ? 'show' : ''}">
-
-                <input class="new-quizz-input-field quizz-question-text" type="text" placeholder="Título do nível">
-                <input class="new-quizz-input-field quizz-question-min-value" type="number"
-                    placeholder="% de acerto mínima">
-                <input class="new-quizz-input-field quizz-url" type="text"
-                    placeholder="URL da imagem do nível">
-                <textarea class="new-quizz-input-field quizz-level-description" type="text"
-                    placeholder="Descrição do nível"></textarea>
+                <div class="span-div">
+                    <input class="new-quizz-input-field quizz-question-text" type="text" placeholder="Título do nível">
+                    <span class="text-error quizz-question-text hide">O título do nível deve ter pelo menos 10 caracteres</span>
+                </div>
+                <div class="span-div">
+                    <input class="new-quizz-input-field quizz-question-min-value" type="number"
+                        placeholder="% de acerto mínima">
+                    <span class="text-error quizz-question-min-value hide">O valor deve estar entre 0 e 100</span>
+                </div>
+                <div class="span-div">
+                    <input class="new-quizz-input-field quizz-url" type="text"
+                        placeholder="URL da imagem do nível">
+                    <span class="text-error quizz-url hide">Essa URL não é válida, tente outra.</span>
+                </div>
+                <div class="span-div">
+                    <textarea class="new-quizz-input-field quizz-level-description" type="text"
+                        placeholder="Descrição do nível"></textarea>
+                    <span class="text-error quizz-level-description hide">A descrição deve ter pelo menos 30 caracteres</span>
+                </div>
 
             </div>
 
@@ -439,27 +452,23 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
 
         if (title.length < 20 || title.length > 60) {
             test = false;
-            document.querySelector('.quizz-title').classList.add('error-background');
-            document.querySelector('.quizz-title.text-error').classList.remove('hide');
+            errorMessage(document.querySelector('.quizz-title'));
 
         }
 
         if (!validURL(url) || !checkURL(url)) {
             test = false;
-            document.querySelector('.quizz-img').classList.add('error-background');
-            document.querySelector('.quizz-img.text-error').classList.remove('hide');
+            errorMessage(document.querySelector('.quizz-img'));
         }
 
         if (numberQuestions < 3) {
             test = false;
-            document.querySelector('.quizz-questions').classList.add('error-background');
-            document.querySelector('.quizz-questions.text-error').classList.remove('hide');
+            errorMessage(document.querySelector('.quizz-questions'));
         }
 
         if (numberLevels < 2) {
             test = false;
-            document.querySelector('.quizz-level').classList.add('error-background');
-            document.querySelector('.quizz-level.text-error').classList.remove('hide');
+            errorMessage(document.querySelector('.quizz-level'));
         }
 
         if (!test) {
@@ -538,7 +547,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
 
     function deleteQuizz(key, id) {
 
-        axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/${id}`, {
+        axios.delete(`${API_URL}/${id}`, {
             headers: { 'Secret-Key': key }
         }).then(renderQuizzListPage_1_1);
     }

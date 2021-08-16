@@ -107,6 +107,10 @@ main{
 .position-absolute{
     position: absolute;
 }
+.all-quizzes-user{
+    display: flex;
+    flex-wrap: wrap;
+}
 
 @media(max-width: 1100px){
     
@@ -115,6 +119,11 @@ main{
         margin-top: 70px;
         width: 100vw;
     }
+
+    .all-quizzes-user{
+        display: block;
+    }
+   
 
     .all-quizzes-list{
         display: block;
