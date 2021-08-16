@@ -473,7 +473,7 @@ let newQuizz = {
 
         if (userQuizzes.length > 0) {
             document.querySelector('.all-quizzes-user').innerHTML = userQuizzes;
-        } else {
+        } else if (document.querySelector('.user-quizzes')) {
             document.querySelector('.user-quizzes').innerHTML = `
             <article class="create-new-quizz">
                             
