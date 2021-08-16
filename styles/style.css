@@ -32,9 +32,6 @@ button:hover{
     color: #ffffff;
 }
 
-.hide {
-    display: none;
-}
 
 .single-quizz{
     position: relative;
@@ -77,7 +74,28 @@ button:hover{
     font-size: 19px;
     line-height: 22px;
 }
-
+.loading-page{
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background-color: #fff;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    font-size: 50px;
+    color: #ed3f2d;
+    overflow: hidden;
+}
+.loading-page h1{
+    margin-top:16px;
+}
+.hide {
+    display: none;
+}
 @media(max-width: 1100px){
 
 

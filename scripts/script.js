@@ -1,8 +1,7 @@
 const SECONDS = 1000;
-const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/';
+const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes';
 let scrollId;
 let allQuizzes;
-/* Temos que tirar vários console.log que estão no código para enviar*/
 
 let newQuizz = {
     title: '',
@@ -10,7 +9,8 @@ let newQuizz = {
     questions: [],
     levels: []
 }
-
+//loading page 
+const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList.toggle("hide");}
 //Screen 3 start here
 {
     function validURL(str) {
@@ -63,7 +63,6 @@ let newQuizz = {
     }
 
     function saveDataInPc(data) {
-        console.log(data.data.id);
         if (!localStorage.getItem('userQuizzes')) {
             let userQuizzesArray = [];
             userQuizzesArray.push(data.data.id);
@@ -82,7 +81,8 @@ let newQuizz = {
     }
 
     function sendQuizzToServer() {
-        axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes', newQuizz).then((data) => { saveDataInPc(data) });
+        axios.post(API_URL, newQuizz).then((data) => { saveDataInPc(data) });
+        toggleLoadingPage();
     }
 
     function transitionPage_3_3_4() {
@@ -102,19 +102,16 @@ let newQuizz = {
             allValuesMinValue.push(minValue);
 
             if (title.length < 10) {
-                console.log(1);
                 error = true;
             }
             if (!validURL(image) || !checkURL(image)) {
                 error = true;
-                console.log(2);
             }
             if (minValue < 0 && minValue > 100) {
                 error = true;
             }
             if (text.length < 30) {
                 error = true;
-                console.log(3);
             }
 
             allLevelsArray.push({
@@ -128,7 +125,6 @@ let newQuizz = {
 
         if (allValuesMinValue.indexOf(0) === -1) {
             error = true;
-            console.log(4);
         }
 
         if (error) {
@@ -136,6 +132,7 @@ let newQuizz = {
         }
         else {
             newQuizz.levels = allLevelsArray;
+            toggleLoadingPage();
             sendQuizzToServer();
         }
 
@@ -443,7 +440,6 @@ let newQuizz = {
             userQuizzesList = JSON.parse(localStorage.getItem('userQuizzes'))
         }
 
-        console.log(userQuizzesList);
         for (let i = 0; i < allQuizzes.length; i++) {
 
             if (userQuizzesList.includes(allQuizzes[i].id)) {
@@ -498,6 +494,7 @@ let newQuizz = {
         }
 
         document.querySelector('.all-quizzes-list').innerHTML = allQuizzesList;
+        toggleLoadingPage();
     }
 
     function quizzListSaveAllQuizzesAnswer_1_1(answer) {
@@ -508,7 +505,7 @@ let newQuizz = {
     }
 
     function quizzListGetAllQuizzes_1_1() {
-        let promise = axios.get(API_URL);
+        let promise = axios.get(API_URL + '/');
         promise.then(quizzListSaveAllQuizzesAnswer_1_1);
     }
 
@@ -516,7 +513,7 @@ let newQuizz = {
 
         document.querySelector('.style-page').href = './styles/quizzList.css'
         let createNewQuizzArea = '';
-
+        toggleLoadingPage();
         if (!localStorage.getItem('userQuizzes')) {
             createNewQuizzArea = `
                 <article class="create-new-quizz">
@@ -575,10 +572,11 @@ let newQuizz = {
     let questionsHitted;
 
     function goToScreen2(quizzId) {
+        toggleLoadingPage();
         questionsAnswered = 0;
         questionsHitted = 0;
         document.querySelector('.style-page').href = './styles/quizzPage.css';
-        let promise = axios.get(API_URL + quizzId);
+        let promise = axios.get(API_URL +'/'+ quizzId);
         promise.then(renderQuizzPage)
     }
 
@@ -684,6 +682,7 @@ let newQuizz = {
           </li>
     `
         }
+        toggleLoadingPage();
     }
     function renderQuizzQuestions() {
         questionsNumber = quizzSelected.questions.length;
