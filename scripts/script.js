@@ -2,7 +2,7 @@ const SECONDS = 1000;
 const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/';
 let scrollId;
 let allQuizzes;
-
+/* Temos que tirar vários console.log que estão no código para enviar*/
 
 let newQuizz = {
     title: '',
@@ -610,8 +610,10 @@ let newQuizz = {
         document.querySelector('main').innerHTML += `
     <div class="result-container">
             <h1 class="result-title"> <strong>${hitPercentage}% de acerto: ${resultLevel.title}</strong></h1>
-            <img src="${resultLevel.image}" alt="">
-            <p> <strong> ${resultLevel.text}</strong></p>
+            <div class="result-content">
+                <img src="${resultLevel.image}" alt="">
+                <p> <strong> ${resultLevel.text}</strong></p>
+            </div>
         </div>
         <button class="restart" onclick="goToScreen2(${quizzSelected.id})">Reiniciar Quizz</button>
         <button class="go-to-home" onclick="renderQuizzListPage_1_1()">Voltar para home</button>
@@ -628,7 +630,7 @@ let newQuizz = {
             if (higherLevel.minValue < clientLevelsAchived[i].minValue) higherLevel = clientLevelsAchived[i];
         }
         showQuizzResult(higherLevel);
-        
+
     }
     function chooseAnswer(element) {
         clearTimeout(scrollId);
@@ -679,4 +681,4 @@ let newQuizz = {
         }
     }
 }
-goToScreen2(1);
+renderQuizzListPage_1_1();
