@@ -2,7 +2,7 @@ const SECONDS = 1000;
 const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/';
 let scrollId;
 let allQuizzes;
-
+/* Temos que tirar vários console.log que estão no código para enviar*/
 
 let newQuizz = {
     title: '',
@@ -549,10 +549,12 @@ let newQuizz = {
 {
     let quizzSelected;
     let questionsNumber, hitPercentage;
-    let questionsAnswered = 0;
-    let questionsHitted = 0;
+    let questionsAnswered;
+    let questionsHitted;
 
     function goToScreen2(quizzId) {
+        questionsAnswered = 0;
+        questionsHitted = 0;
         document.querySelector('.style-page').href = './styles/quizzPage.css';
         let promise = axios.get(API_URL + quizzId);
         promise.then(renderQuizzPage)
@@ -594,7 +596,7 @@ let newQuizz = {
         }
         const nextNumberId = Number(justNumberIdString) + 1;
         const nextId = "question-id" + nextNumberId;
-        document.getElementById(nextId).scrollIntoView('slow');
+        document.getElementById(nextId).scrollIntoView();
         window.scrollBy({
             top: -69,
             left: 0,
@@ -602,23 +604,21 @@ let newQuizz = {
         });
     }
     function scrollToResult() {
-        document.querySelector('.result-title').scrollIntoView('slow');
-        window.scrollBy({
-            top: -40,
-            left: 0,
-            behavior: 'smooth'
-        });
+        document.querySelector('.result-title').scrollIntoView();
     }
     function showQuizzResult(resultLevel) {
         document.querySelector('main').innerHTML += `
     <div class="result-container">
             <h1 class="result-title"> <strong>${hitPercentage}% de acerto: ${resultLevel.title}</strong></h1>
-            <img src="${resultLevel.image}" alt="">
-            <p> <strong> ${resultLevel.text}</strong></p>
+            <div class="result-content">
+                <img src="${resultLevel.image}" alt="">
+                <p> <strong> ${resultLevel.text}</strong></p>
+            </div>
         </div>
         <button class="restart" onclick="goToScreen2(${quizzSelected.id})">Reiniciar Quizz</button>
         <button class="go-to-home" onclick="renderQuizzListPage_1_1()">Voltar para home</button>
         `;
+        setTimeout(scrollToResult, 2000);
     }
     function calcResult() {
         hitPercentage = (questionsHitted / questionsNumber) * 100;
@@ -630,7 +630,7 @@ let newQuizz = {
             if (higherLevel.minValue < clientLevelsAchived[i].minValue) higherLevel = clientLevelsAchived[i];
         }
         showQuizzResult(higherLevel);
-        scrollId = setTimeout(scrollToResult(), 20 * SECONDS);
+
     }
     function chooseAnswer(element) {
         clearTimeout(scrollId);
@@ -645,7 +645,7 @@ let newQuizz = {
         element.setAttribute('onclick', "");
         if (element.querySelector('.true')) questionsHitted++;
         questionsAnswered++;
-        if (questionsAnswered === questionsNumber) calcResult();
+        if (questionsAnswered === questionsNumber) return calcResult();
         scrollId = setTimeout(scrollToNextQuestion, 2 * SECONDS, element);
 
     }
