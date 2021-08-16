@@ -622,7 +622,7 @@ let newQuizz = {
         <button class="restart" onclick="goToScreen2(${quizzSelected.id})">Reiniciar Quizz</button>
         <button class="go-to-home" onclick="renderQuizzListPage_1_1()">Voltar para home</button>
         `;
-        setTimeout(scrollToResult, 2000);
+        setTimeout(scrollToResult, 2*SECONDS);
     }
     function calcResult() {
         hitPercentage = (questionsHitted / questionsNumber) * 100;
