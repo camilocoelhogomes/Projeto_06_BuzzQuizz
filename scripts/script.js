@@ -427,6 +427,10 @@ let newQuizz = {
 }
 //Screen 1 start here
 {
+    function deleteQuizz(id) {
+        alert(id);
+    }
+
     function quizzListRenderAllQuizzes_1_1() {
         let allQuizzesList = '';
         let userQuizzes = '';
@@ -448,6 +452,12 @@ let newQuizz = {
                     <figure class = 'single-quizz-figure'>
                         <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
                     </figure>
+                    
+                    <button class="delete-button" onclick = 'deleteQuizz(${allQuizzes[i].id})'>
+                        <ion-icon class="trash" name="trash"></ion-icon>
+                    </button>
+        
+        
 
                     <header class = 'single-quizz-header'>
                         <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
