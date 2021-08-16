@@ -10,7 +10,7 @@ let newQuizz = {
     levels: []
 }
 //loading page 
-const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList.toggle("hide");}
+const toggleLoadingPage = () => { document.querySelector(".loading-page").classList.toggle("hide"); }
 //Screen 3 start here
 {
     function validURL(str) {
@@ -424,8 +424,11 @@ const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList
 }
 //Screen 1 start here
 {
-    function deleteQuizz(id) {
-        alert(id);
+    function deleteQuizz(key, id) {
+
+        axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/${id}`, {
+            headers: { 'Secret-Key': key }
+        }).then(renderQuizzListPage_1_1);
     }
 
     function quizzListRenderAllQuizzes_1_1() {
@@ -461,7 +464,7 @@ const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList
                         </header>
                     </div>
 
-                    <button class="delete-button" onclick = 'deleteQuizz(${userQuizzesKeys[userQuizzesIds.indexOf(allQuizzes[i].id)]})'>
+                    <button class="delete-button" onclick = 'deleteQuizz("${userQuizzesKeys[userQuizzesIds.indexOf(allQuizzes[i].id)]}",${allQuizzes[i].id})'>
                         <ion-icon class="trash" name="trash"></ion-icon>
                     </button>
                     
@@ -583,7 +586,7 @@ const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList
         questionsAnswered = 0;
         questionsHitted = 0;
         document.querySelector('.style-page').href = './styles/quizzPage.css';
-        let promise = axios.get(API_URL +'/'+ quizzId);
+        let promise = axios.get(API_URL + '/' + quizzId);
         promise.then(renderQuizzPage)
     }
 
