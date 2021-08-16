@@ -63,10 +63,11 @@ let newQuizz = {
     }
 
     function saveDataInPc(data) {
-        console.log(data.data.id);
+        console.log(data.data);
         if (!localStorage.getItem('userQuizzes')) {
             let userQuizzesArray = [];
-            userQuizzesArray.push(data.data.id);
+            const quizzId = `${data.data.id}`
+            userQuizzesArray.push({ id: data.data.id, key: data.data.key });
             userQuizzes = JSON.stringify(userQuizzesArray);
             localStorage.setItem('userQuizzes', userQuizzes);
         }
@@ -448,20 +449,21 @@ let newQuizz = {
 
             if (userQuizzesList.includes(allQuizzes[i].id)) {
                 userQuizzes += `
-                <li class='single-quizz' id = "${allQuizzes[i].id}" onclick="goToScreen2(${allQuizzes[i].id})">
-                    <figure class = 'single-quizz-figure'>
-                        <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
-                    </figure>
-                    
+                <li class='single-quizz' id = "${allQuizzes[i].id}" >
+                    <div class = 'position-absolute' onclick="goToScreen2(${allQuizzes[i].id})">
+                        <figure class = 'single-quizz-figure'>
+                            <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
+                        </figure>
+ 
+                        <header class = 'single-quizz-header'>
+                            <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
+                        </header>
+                    </div>
+
                     <button class="delete-button" onclick = 'deleteQuizz(${allQuizzes[i].id})'>
                         <ion-icon class="trash" name="trash"></ion-icon>
                     </button>
-        
-        
-
-                    <header class = 'single-quizz-header'>
-                        <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
-                    </header>
+                    
                 </li>
                 `
 
