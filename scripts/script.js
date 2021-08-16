@@ -208,6 +208,11 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         window.scrollTo(0, 0);
     }
 
+    function errorMessage(item) {
+        item.parentNode.querySelector('span').classList.remove('hide');
+        item.classList.add('error-background');
+    }
+
     function transitionPage_3_2_3() {
         const allQuestions = document.querySelectorAll('.new-quizz-input');
 
@@ -222,9 +227,11 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
 
             if (title < 20) {
                 error = true;
+                errorMessage(allQuestions[i].querySelector('.quizz-question-text'));
             }
             if ((correctAnswerText === '') && (!validURL(correctImage) || !checkURL(correctImage))) {
                 error = true;
+
             } else {
                 newQuizz.questions[i].title = title;
                 newQuizz.questions[i].color = allQuestions[i].querySelector('.quizz-question-background').value;
@@ -292,8 +299,10 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
                     <div class="quizz-creation-question-pair-input">
                         <input class="new-quizz-input-field quizz-question-text" type="text"
                             placeholder="Texto da pergunta">
+                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                         <input class="new-quizz-input-field quizz-question-background" type="color"
                             placeholder="Cor de fundo da pergunta">
+                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                     </div>
 
                     <h3 class="quizz-creation-question-title">Resposta Correta</h3>
@@ -301,7 +310,9 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
                     <div class="quizz-creation-question-pair-input">
                         <input class="new-quizz-input-field quizz-correct-awnser" type="text"
                             placeholder="Resposta correta">
+                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                         <input class="new-quizz-input-field quizz-correct-img" type="text" placeholder="URL da imagem">
+                        <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                     </div>
 
                     <h3 class="quizz-creation-question-title">Respostas Incorretas</h3>
@@ -309,19 +320,25 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
                     <div class="quizz-creation-question-pair-input">
                         <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
                             placeholder="Resposta incorreta 1">
+                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                         <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 1">
+                        <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                     </div>
 
                     <div class="quizz-creation-question-pair-input">
                         <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
                             placeholder="Resposta incorreta 2">
+                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                         <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 2">
+                        <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                     </div>
 
                     <div class="quizz-creation-question-pair-input">
                         <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
                             placeholder="Resposta incorreta 3">
+                            <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                         <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 3">
+                        <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                     </div>
 
                 </div>
@@ -352,6 +369,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
 
         window.scrollTo(0, 0);
     }
+
     function cleanErrorMessage() {
         document.querySelector('.quizz-title').classList.remove('error-background');
         document.querySelector('.quizz-title.text-error').classList.add('hide');
@@ -362,6 +380,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         document.querySelector('.quizz-level').classList.remove('error-background');
         document.querySelector('.quizz-level.text-error').classList.add('hide');
     }
+
     function transitionPage_3_1_2() {
         let test = true;
         const title = document.querySelector('.quizz-title').value;
@@ -765,4 +784,4 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         }
     }
 }
-renderQuizzListPage_1_1();
+renderQuizzCreationQuestionsPage_3_2(3);
