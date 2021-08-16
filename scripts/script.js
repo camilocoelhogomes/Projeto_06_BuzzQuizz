@@ -10,7 +10,7 @@ let newQuizz = {
     levels: []
 }
 //loading page 
-const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList.toggle("hide");}
+const toggleLoadingPage = () => { document.querySelector(".loading-page").classList.toggle("hide"); }
 //Screen 3 start here
 {
     function validURL(str) {
@@ -338,7 +338,16 @@ const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList
 
         window.scrollTo(0, 0);
     }
-
+    function cleanErrorMessage() {
+        document.querySelector('.quizz-title').classList.remove('error-background');
+        document.querySelector('.quizz-title.text-error').classList.add('hide');
+        document.querySelector('.quizz-img').classList.remove('error-background');
+        document.querySelector('.quizz-img.text-error').classList.add('hide');
+        document.querySelector('.quizz-questions').classList.remove('error-background');
+        document.querySelector('.quizz-questions.text-error').classList.add('hide');
+        document.querySelector('.quizz-level').classList.remove('error-background');
+        document.querySelector('.quizz-level.text-error').classList.add('hide');
+    }
     function transitionPage_3_1_2() {
         let test = true;
         const title = document.querySelector('.quizz-title').value;
@@ -346,20 +355,31 @@ const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList
         const numberQuestions = Number(document.querySelector('.quizz-questions').value);
         const numberLevels = Number(document.querySelector('.quizz-level').value);
 
+        cleanErrorMessage();
+
         if (title.length < 20 || title.length > 60) {
             test = false;
+            document.querySelector('.quizz-title').classList.add('error-background');
+            document.querySelector('.quizz-title.text-error').classList.remove('hide');
+
         }
 
         if (!validURL(url) || !checkURL(url)) {
             test = false;
+            document.querySelector('.quizz-img').classList.add('error-background');
+            document.querySelector('.quizz-img.text-error').classList.remove('hide');
         }
 
         if (numberQuestions < 3) {
             test = false;
+            document.querySelector('.quizz-questions').classList.add('error-background');
+            document.querySelector('.quizz-questions.text-error').classList.remove('hide');
         }
 
         if (numberLevels < 2) {
             test = false;
+            document.querySelector('.quizz-level').classList.add('error-background');
+            document.querySelector('.quizz-level.text-error').classList.remove('hide');
         }
 
         if (!test) {
@@ -394,20 +414,24 @@ const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList
 
                 <li class="new-quizz-input">
                     <input class="new-quizz-input-field quizz-title" type="text" placeholder="Título do seu quizz">
+                    <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                 </li>
 
                 <li class="new-quizz-input url">
                     <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem do seu quizz">
+                    <span class="text-error quizz-img hide">Essa URL não é válida, tente outra.</span>
                 </li>
 
                 <li class="new-quizz-input numberQuestions">
                     <input class="new-quizz-input-field quizz-questions" type="number"
                         placeholder="Quantidade de perguntas do quizz">
+                        <span class="text-error quizz-questions hide">O quizz deve ter no mínimo 3 perguntas</span>
                 </li>
 
                 <li class="new-quizz-input numberLevels">
                     <input class="new-quizz-input-field quizz-level" type="number"
                         placeholder="Quantidade de níveis do quizz">
+                        <span class="text-error quizz-level hide"> O quizz deve ter no mínimo 2 níveis</span>
                 </li>
 
             </ul>
@@ -583,7 +607,7 @@ const toggleLoadingPage =()=> {document.querySelector(".loading-page").classList
         questionsAnswered = 0;
         questionsHitted = 0;
         document.querySelector('.style-page').href = './styles/quizzPage.css';
-        let promise = axios.get(API_URL +'/'+ quizzId);
+        let promise = axios.get(API_URL + '/' + quizzId);
         promise.then(renderQuizzPage)
     }
 

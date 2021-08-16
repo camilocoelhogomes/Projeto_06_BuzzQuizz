@@ -178,7 +178,15 @@ body{
     height: 266px;
     border-radius: 5px;
 }
-
+.error-background{
+    background-color: #FFE9E9;
+}
+.text-error{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #ec362d;
+    width: 100%;
+}
 @media(max-width: 1100px){
     main{
         background-color: initial;
