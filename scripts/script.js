@@ -2,8 +2,6 @@ const SECONDS = 1000;
 const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/';
 let scrollId;
 let allQuizzes;
-/* Temos que tirar vários console.log que estão no código para enviar*/
-
 let newQuizz = {
     title: '',
     image: '',
@@ -63,13 +61,8 @@ let newQuizz = {
     }
 
     function saveDataInPc(data) {
-        console.log(data.data);
         if (!localStorage.getItem('userQuizzes')) {
             let userQuizzesArray = [];
-            const quizzId = `${data.data.id}`
-            userQuizzesArray.push({ id: data.data.id, key: data.data.key });
-            userQuizzes = JSON.stringify(userQuizzesArray);
-            localStorage.setItem('userQuizzes', userQuizzes);
         }
         else {
             let userQuizzes = localStorage.getItem('userQuizzes');
@@ -103,19 +96,16 @@ let newQuizz = {
             allValuesMinValue.push(minValue);
 
             if (title.length < 10) {
-                console.log(1);
                 error = true;
             }
             if (!validURL(image) || !checkURL(image)) {
                 error = true;
-                console.log(2);
             }
             if (minValue < 0 && minValue > 100) {
                 error = true;
             }
             if (text.length < 30) {
                 error = true;
-                console.log(3);
             }
 
             allLevelsArray.push({
@@ -129,7 +119,6 @@ let newQuizz = {
 
         if (allValuesMinValue.indexOf(0) === -1) {
             error = true;
-            console.log(4);
         }
 
         if (error) {
@@ -440,7 +429,6 @@ let newQuizz = {
             userQuizzesList = JSON.parse(localStorage.getItem('userQuizzes'))
         }
 
-        console.log(userQuizzesList);
         for (let i = 0; i < allQuizzes.length; i++) {
 
             if (userQuizzesList.includes(allQuizzes[i].id)) {
@@ -631,7 +619,7 @@ let newQuizz = {
         <button class="restart" onclick="goToScreen2(${quizzSelected.id})">Reiniciar Quizz</button>
         <button class="go-to-home" onclick="renderQuizzListPage_1_1()">Voltar para home</button>
         `;
-        setTimeout(scrollToResult, 2000);
+        setTimeout(scrollToResult, 2 * SECONDS);
     }
     function calcResult() {
         hitPercentage = (questionsHitted / questionsNumber) * 100;
