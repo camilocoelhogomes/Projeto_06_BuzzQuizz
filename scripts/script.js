@@ -120,6 +120,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
             }
             if (!validURL(image) || !checkURL(image)) {
                 error = true;
+
             }
             if (minValue < 0 && minValue > 100) {
                 error = true;
@@ -259,8 +260,9 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
             let incorrecAnswerArray = [];
 
             incorrectAnswer.forEach((item, k) => {
+                console.log(item);
                 const incorretText = item.value;
-                const incorretImg = item.parentNode.querySelector('.quizz-img');
+                const incorretImg = item.parentNode.parentNode.querySelector('.quizz-img').value;
 
                 if (!(incorretText === '') && !(!validURL(incorretImg) || !checkURL(incorretImg))) {
                     incorrecAnswerArray.push(
@@ -274,7 +276,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
 
             });
 
-
+            console.log(incorrecAnswerArray);
             if (incorrecAnswerArray.length === 0) {
                 error = true;
                 const allIncorrect = document.querySelectorAll('.quizz-incorrect-awser');
