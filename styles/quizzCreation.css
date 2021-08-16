@@ -188,6 +188,27 @@ body{
         margin: 0;
     }
 
+    .single-quizz{
+        position: relative;
+        background: linear-gradient(180deg,rgba(255, 255, 255, 0),rgba(0, 0, 0, 0.5));
+        border-radius: 5px;
+        height: 181px;
+        margin: 0 auto;
+        width: 340px;
+        overflow: wrap;
+    }
+    
+    .single-quizz-figure{
+        position: relative;
+        border-radius: 5px;
+        z-index: -1;
+    }
+    
+    .single-quizz-img{
+        width: 340px;
+        height: 181px;
+        border-radius: 5px;
+    }
 
     .new-quizz-header{
         background-color: #FAFAFA;
@@ -266,6 +287,7 @@ body{
         justify-content: center;
         align-items: center;
         margin: 0 0 10px 0;
+        width: 100%;
     }
 
     .create-new-question-button{
