@@ -92,7 +92,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
             axios.post(API_URL, newQuizz).then((data) => { saveDataInPc(data) });
             toggleLoadingPage();
         } else {
-            axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/${editingQuizz.id}`, newQuizz, {
+            axios.put(`${API_URL}/${editingQuizz.id}`, newQuizz, {
                 headers: { 'Secret-Key': editingQuizz.key }
             }).then(renderQuizzListPage_1_1);
             toggleLoadingPage();
@@ -172,12 +172,16 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
             <div class="quis-creation-question-inputs hide ${i === 1 ? 'show' : ''}">
 
                 <input class="new-quizz-input-field quizz-question-text" type="text" placeholder="Título do nível">
+                <span class="text-error quizz-question-text hide">O título do nível deve ter pelo menos 10 caracteres</span>
                 <input class="new-quizz-input-field quizz-question-min-value" type="number"
                     placeholder="% de acerto mínima">
+                <span class="text-error quizz-question-min-value hide">O valor deve estar entre 0 e 100</span>
                 <input class="new-quizz-input-field quizz-url" type="text"
                     placeholder="URL da imagem do nível">
+                <span class="text-error quizz-url hide">Essa URL não é válida, tente outra.</span>
                 <textarea class="new-quizz-input-field quizz-level-description" type="text"
                     placeholder="Descrição do nível"></textarea>
+                <span class="text-error quizz-level-description hide">A descrição deve ter pelo menos 30 caracteres</span>
 
             </div>
 
@@ -472,7 +476,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
 
     function deleteQuizz(key, id) {
 
-        axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/${id}`, {
+        axios.delete(`${API_URL}/${id}`, {
             headers: { 'Secret-Key': key }
         }).then(renderQuizzListPage_1_1);
     }
