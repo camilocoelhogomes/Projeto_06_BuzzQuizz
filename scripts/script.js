@@ -544,10 +544,11 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
     }
 
     function deleteQuizz(key, id) {
-
-        axios.delete(`${API_URL}/${id}`, {
-            headers: { 'Secret-Key': key }
-        }).then(renderQuizzListPage_1_1);
+        if (window.confirm('Tem certeza que quer apagar?')) {
+            axios.delete(`${API_URL}/${id}`, {
+                headers: { 'Secret-Key': key }
+            }).then(renderQuizzListPage_1_1);
+        }
     }
 
     function quizzListRenderAllQuizzes_1_1() {
