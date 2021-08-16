@@ -34,56 +34,9 @@ button:hover{
     display: none;
 }
 
-.single-quizz{
-    position: relative;
-    background: linear-gradient(180deg,rgba(255, 255, 255, 0),rgba(0, 0, 0, 0.5));
-    border-radius: 5px;
-    height: 180px;
-    margin: 10px;
-    width: 340px;
-}
-
-.single-quizz:hover{
-    cursor: pointer;
-}
-
-.single-quizz-figure{
-    position: relative;
-    border-radius: 5px;
-    z-index: -1;
-}
-
-.single-quizz-img{
-    width: 340px;
-    height: 180px;
-    border-radius: 5px;
-}
-
-.single-quizz-header{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 54px;
-    justify-content: center;
-    z-index: 1;
-    color: #ffffff;
-}
-
-.single-quizz-title{
-    color: #ffffff;
-    font-family: 'Roboto', sans-serif;
-    font-size: 19px;
-    line-height: 22px;
-}
-
 
 @media(max-width: 1100px){
-    .main-header{
-        width: 100vw;
-    }
+
     .single-quizz{
         position: relative;
         background: linear-gradient(180deg,rgba(255, 255, 255, 0),rgba(0, 0, 0, 0.5));
