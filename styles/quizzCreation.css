@@ -34,7 +34,7 @@ body{
 
 .new-quizz-input-field{
     height: 46px;
-    width: 100%;
+    width: calc(100vw - 10px);
     font-family: 'Roboto', sans-serif;
     font-size: 19px;
     padding-left: 14px;
