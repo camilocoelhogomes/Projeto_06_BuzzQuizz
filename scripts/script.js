@@ -3,7 +3,7 @@ const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/qu
 let scrollId;
 let allQuizzes;
 /* Temos que tirar vários console.log que estão no código para enviar*/
-
+let testNewBranch = true;
 let newQuizz = {
     title: '',
     image: '',
