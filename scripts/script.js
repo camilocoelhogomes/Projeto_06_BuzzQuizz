@@ -273,7 +273,6 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
             let incorrecAnswerArray = [];
 
             incorrectAnswer.forEach((item, k) => {
-                console.log(item);
                 const incorretText = item.value;
                 const incorretImg = item.parentNode.parentNode.querySelector('.quizz-img').value;
 
@@ -289,7 +288,6 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
 
             });
 
-            console.log(incorrecAnswerArray);
             if (incorrecAnswerArray.length === 0) {
                 error = true;
                 const allIncorrect = document.querySelectorAll('.quizz-incorrect-awser');
