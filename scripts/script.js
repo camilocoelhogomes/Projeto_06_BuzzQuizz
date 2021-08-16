@@ -439,7 +439,6 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
 //Screen 1 start here
 {
     function editQuizz(key, id) {
-        alert(key + '_____' + id);
         editingQuizz.status = true;
         editingQuizz.id = id;
         editingQuizz.key = key;
