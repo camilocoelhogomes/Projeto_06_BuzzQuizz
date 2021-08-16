@@ -75,6 +75,18 @@ main{
     flex-wrap: wrap;
 }
 
+.edit-button{
+    background-color: #ec362d;
+    border: none;
+    border-radius: 10px 0 0 0;
+    width: 43px;
+    height: 43px;
+    position: absolute;
+    top: 9px;
+    right: 0px;
+    z-index: 9;
+}
+
 .delete-button{
     background-color: #ec362d;
     border: none;

@@ -9,6 +9,13 @@ let newQuizz = {
     questions: [],
     levels: []
 }
+
+let editingQuizz = {
+    status: false,
+    id: '',
+    key: ''
+}
+
 //loading page 
 const toggleLoadingPage = () => { document.querySelector(".loading-page").classList.toggle("hide"); }
 //Screen 3 start here
@@ -81,8 +88,15 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
     }
 
     function sendQuizzToServer() {
-        axios.post(API_URL, newQuizz).then((data) => { saveDataInPc(data) });
-        toggleLoadingPage();
+        if (!editingQuizz.status) {
+            axios.post(API_URL, newQuizz).then((data) => { saveDataInPc(data) });
+            toggleLoadingPage();
+        } else {
+            axios.put(`https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/${editingQuizz.id}`, newQuizz, {
+                headers: { 'Secret-Key': editingQuizz.key }
+            }).then(renderQuizzListPage_1_1);
+            toggleLoadingPage();
+        }
     }
 
     function transitionPage_3_3_4() {
@@ -424,6 +438,15 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
 }
 //Screen 1 start here
 {
+    function editQuizz(key, id) {
+        alert(key + '_____' + id);
+        editingQuizz.status = true;
+        editingQuizz.id = id;
+        editingQuizz.key = key;
+
+        renderQuizzCreationPage_3_1();
+    }
+
     function deleteQuizz(key, id) {
 
         axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/${id}`, {
@@ -463,7 +486,9 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
                             <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
                         </header>
                     </div>
-
+                    <button class="edit-button" onclick = 'editQuizz("${userQuizzesKeys[userQuizzesIds.indexOf(allQuizzes[i].id)]}",${allQuizzes[i].id})'>
+                        <ion-icon class="trash" name="create-outline"></ion-icon>
+                    </button>
                     <button class="delete-button" onclick = 'deleteQuizz("${userQuizzesKeys[userQuizzesIds.indexOf(allQuizzes[i].id)]}",${allQuizzes[i].id})'>
                         <ion-icon class="trash" name="trash"></ion-icon>
                     </button>
@@ -524,6 +549,11 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
         document.querySelector('.style-page').href = './styles/quizzList.css'
         let createNewQuizzArea = '';
         toggleLoadingPage();
+        editingQuizz = {
+            status: false,
+            id: '',
+            key: ''
+        }
         if (!localStorage.getItem('userQuizzes')) {
             createNewQuizzArea = `
                 <article class="create-new-quizz">
