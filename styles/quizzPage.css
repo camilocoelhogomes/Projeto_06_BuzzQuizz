@@ -137,6 +137,14 @@
 .green {
   color: green;
 }
+.result-content {
+  width:100%;
+  display: flex;
+  flex-direction: column;
+}
+.result-content p{
+  word-wrap: break-word;
+}
 @media (min-width: 768px) {
   .question-container,
   .result-container {
@@ -168,10 +176,8 @@
     margin-top: 8px;
     font-size: 20px;
   }
-  .result-content {
-    width:100%;
-    display: flex;
-    
+  .result-content{
+    flex-direction: row;
   }
   .result-container p {
     font-size: 19px;
