@@ -572,21 +572,14 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
 
             if (userQuizzesIds.includes(allQuizzes[i].id)) {
                 userQuizzes += `
-<<<<<<< HEAD
-                <li class='single-quizz' id = "${allQuizzes[i].id}" onclick="goToScreen2(${allQuizzes[i].id})">
-=======
                 <li class='single-quizz' id = "${allQuizzes[i].id}" >
                     <div class = 'position-absolute' onclick="goToScreen2(${allQuizzes[i].id})">
->>>>>>> bonus
                         <figure class = 'single-quizz-figure'>
                             <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
                         </figure>
  
                         <header class = 'single-quizz-header'>
                             <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
-<<<<<<< HEAD
-                        </header>                  
-=======
                         </header>
                     </div>
                     <button class="edit-button" onclick = 'editQuizz("${userQuizzesKeys[userQuizzesIds.indexOf(allQuizzes[i].id)]}",${allQuizzes[i].id})'>
@@ -596,7 +589,6 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
                         <ion-icon class="trash" name="trash"></ion-icon>
                     </button>
                     
->>>>>>> bonus
                 </li>
                 `
 
