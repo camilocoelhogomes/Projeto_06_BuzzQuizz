@@ -2,10 +2,6 @@ const SECONDS = 1000;
 const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes';
 let scrollId;
 let allQuizzes;
-<<<<<<< HEAD
-=======
-
->>>>>>> bonus
 let newQuizz = {
     title: '',
     image: '',
@@ -122,11 +118,8 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
             }
             if (!validURL(image) || !checkURL(image)) {
                 error = true;
-<<<<<<< HEAD
-=======
                 errorMessage(item.querySelector('.quizz-url'));
 
->>>>>>> bonus
             }
             if (minValue < 0 || minValue > 100) {
                 error = true;
@@ -134,10 +127,7 @@ const toggleLoadingPage = () => { document.querySelector(".loading-page").classL
             }
             if (text.length < 30) {
                 error = true;
-<<<<<<< HEAD
-=======
                 errorMessage(item.querySelector('.quizz-level-description'));
->>>>>>> bonus
             }
 
             allLevelsArray.push({
