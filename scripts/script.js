@@ -1,7 +1,11 @@
 const SECONDS = 1000;
-const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes/';
+const API_URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes';
 let scrollId;
 let allQuizzes;
+<<<<<<< HEAD
+=======
+
+>>>>>>> bonus
 let newQuizz = {
     title: '',
     image: '',
@@ -9,6 +13,14 @@ let newQuizz = {
     levels: []
 }
 
+let editingQuizz = {
+    status: false,
+    id: '',
+    key: ''
+}
+
+//loading page 
+const toggleLoadingPage = () => { document.querySelector(".loading-page").classList.toggle("hide"); }
 //Screen 3 start here
 {
     function validURL(str) {
@@ -63,14 +75,14 @@ let newQuizz = {
     function saveDataInPc(data) {
         if (!localStorage.getItem('userQuizzes')) {
             let userQuizzesArray = [];
-            userQuizzesArray.push(data.data.id);
+            userQuizzesArray.push({ id: data.data.id, key: data.data.key });
             userQuizzes = JSON.stringify(userQuizzesArray);
             localStorage.setItem('userQuizzes', userQuizzes);
         }
         else {
             let userQuizzes = localStorage.getItem('userQuizzes');
             let userQuizzesArray = JSON.parse(userQuizzes)
-            userQuizzesArray.push(data.data.id);
+            userQuizzesArray.push({ id: data.data.id, key: data.data.key });
             userQuizzes = JSON.stringify(userQuizzesArray);
             localStorage.setItem('userQuizzes', userQuizzes);
         }
@@ -79,14 +91,21 @@ let newQuizz = {
     }
 
     function sendQuizzToServer() {
-        axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes', newQuizz).then((data) => { saveDataInPc(data) });
+        if (!editingQuizz.status) {
+            axios.post(API_URL, newQuizz).then((data) => { saveDataInPc(data) });
+            toggleLoadingPage();
+        } else {
+            axios.put(`${API_URL}/${editingQuizz.id}`, newQuizz, {
+                headers: { 'Secret-Key': editingQuizz.key }
+            }).then(renderQuizzListPage_1_1);
+            toggleLoadingPage();
+        }
     }
 
     function transitionPage_3_3_4() {
         const allLevels = document.querySelectorAll('.new-quizz-input');
         let allValuesMinValue = [];
         let allLevelsArray = [];
-
 
         let error = false;
 
@@ -97,18 +116,28 @@ let newQuizz = {
             const text = item.querySelector('.quizz-level-description').value;
             const minValue = Number(item.querySelector('.quizz-question-min-value').value);
             allValuesMinValue.push(minValue);
-
             if (title.length < 10) {
                 error = true;
+                errorMessage(item.querySelector('.quizz-question-text'));
             }
             if (!validURL(image) || !checkURL(image)) {
                 error = true;
+<<<<<<< HEAD
+=======
+                errorMessage(item.querySelector('.quizz-url'));
+
+>>>>>>> bonus
             }
-            if (minValue < 0 && minValue > 100) {
+            if (minValue < 0 || minValue > 100) {
                 error = true;
+                errorMessage(item.querySelector('.quizz-question-min-value'));
             }
             if (text.length < 30) {
                 error = true;
+<<<<<<< HEAD
+=======
+                errorMessage(item.querySelector('.quizz-level-description'));
+>>>>>>> bonus
             }
 
             allLevelsArray.push({
@@ -125,10 +154,11 @@ let newQuizz = {
         }
 
         if (error) {
-            alert('Informaões inseridas incorretas');
+
         }
         else {
             newQuizz.levels = allLevelsArray;
+            toggleLoadingPage();
             sendQuizzToServer();
         }
 
@@ -152,14 +182,25 @@ let newQuizz = {
             </header>
 
             <div class="quis-creation-question-inputs hide ${i === 1 ? 'show' : ''}">
-
-                <input class="new-quizz-input-field quizz-question-text" type="text" placeholder="Título do nível">
-                <input class="new-quizz-input-field quizz-question-min-value" type="number"
-                    placeholder="% de acerto mínima">
-                <input class="new-quizz-input-field quizz-url" type="text"
-                    placeholder="URL da imagem do nível">
-                <textarea class="new-quizz-input-field quizz-level-description" type="text"
-                    placeholder="Descrição do nível"></textarea>
+                <div class="span-div">
+                    <input class="new-quizz-input-field quizz-question-text" type="text" placeholder="Título do nível">
+                    <span class="text-error quizz-question-text hide">O título do nível deve ter pelo menos 10 caracteres</span>
+                </div>
+                <div class="span-div">
+                    <input class="new-quizz-input-field quizz-question-min-value" type="number"
+                        placeholder="% de acerto mínima">
+                    <span class="text-error quizz-question-min-value hide">O valor deve estar entre 0 e 100</span>
+                </div>
+                <div class="span-div">
+                    <input class="new-quizz-input-field quizz-url" type="text"
+                        placeholder="URL da imagem do nível">
+                    <span class="text-error quizz-url hide">Essa URL não é válida, tente outra.</span>
+                </div>
+                <div class="span-div">
+                    <textarea class="new-quizz-input-field quizz-level-description" type="text"
+                        placeholder="Descrição do nível"></textarea>
+                    <span class="text-error quizz-level-description hide">A descrição deve ter pelo menos 30 caracteres</span>
+                </div>
 
             </div>
 
@@ -190,10 +231,24 @@ let newQuizz = {
         window.scrollTo(0, 0);
     }
 
+    function errorMessage(item) {
+        item.parentNode.querySelector('span').classList.remove('hide');
+        item.classList.add('error-background');
+    }
+
+    function removeErrorMessage() {
+        const spanDiv = document.querySelectorAll('.span-div');
+        spanDiv.forEach(item => {
+            item.querySelector('span').classList.add('hide');
+            item.querySelector('input').classList.remove('error-background');
+
+        })
+    }
+
     function transitionPage_3_2_3() {
         const allQuestions = document.querySelectorAll('.new-quizz-input');
 
-
+        removeErrorMessage();
         let error = false;
 
         for (let i = 0; i < allQuestions.length; i++) {
@@ -204,47 +259,58 @@ let newQuizz = {
 
             if (title < 20) {
                 error = true;
+                errorMessage(allQuestions[i].querySelector('.quizz-question-text'));
             }
-            if ((correctAnswerText === '') && (!validURL(correctImage) || !checkURL(correctImage))) {
+            if ((correctAnswerText === '')) {
                 error = true;
-            } else {
-                newQuizz.questions[i].title = title;
-                newQuizz.questions[i].color = allQuestions[i].querySelector('.quizz-question-background').value;
-                let correctAnswer = [{
-                    text: correctAnswerText,
-                    image: correctImage,
-                    isCorrectAnswer: true
-                }]
-                const incorrectAnswer = allQuestions[i].querySelectorAll('.quizz-incorrect-awser');
-                let incorrecAnswerArray = [];
-
-                incorrectAnswer.forEach((item, k) => {
-                    const incorretText = item.value;
-                    const incorretImg = item.parentNode.querySelector('.quizz-img').value;
-
-                    if (!(incorretText === '') && !(!validURL(incorretImg) || !checkURL(incorretImg))) {
-                        incorrecAnswerArray.push(
-                            {
-                                text: incorretText,
-                                image: incorretImg,
-                                isCorrectAnswer: false
-                            }
-                        )
-                    }
-
-                });
-
-
-                if (incorrecAnswerArray.length === 0) {
-                    error = true;
-                } else {
-                    newQuizz.questions[i].answers = correctAnswer.concat(incorrecAnswerArray);
-                }
+                errorMessage(allQuestions[i].querySelector('.quizz-correct-awnser'));
             }
+            if (!validURL(correctImage) || !checkURL(correctImage)) {
+                error = true;
+                errorMessage(allQuestions[i].querySelector('.quizz-correct-img'));
+            }
+
+
+            newQuizz.questions[i].title = title;
+            newQuizz.questions[i].color = allQuestions[i].querySelector('.quizz-question-background').value;
+            let correctAnswer = [{
+                text: correctAnswerText,
+                image: correctImage,
+                isCorrectAnswer: true
+            }]
+            const incorrectAnswer = allQuestions[i].querySelectorAll('.quizz-incorrect-awser');
+            let incorrecAnswerArray = [];
+
+            incorrectAnswer.forEach((item, k) => {
+                const incorretText = item.value;
+                const incorretImg = item.parentNode.parentNode.querySelector('.quizz-img').value;
+
+                if (!(incorretText === '') && !(!validURL(incorretImg) || !checkURL(incorretImg))) {
+                    incorrecAnswerArray.push(
+                        {
+                            text: incorretText,
+                            image: incorretImg,
+                            isCorrectAnswer: false
+                        }
+                    )
+                }
+
+            });
+
+            if (incorrecAnswerArray.length === 0) {
+                error = true;
+                const allIncorrect = document.querySelectorAll('.quizz-incorrect-awser');
+                const allIncorrectImg = document.querySelectorAll('.quizz-img');
+                allIncorrect.forEach(item => { errorMessage(item) });
+                allIncorrectImg.forEach(item => { errorMessage(item) });
+            } else {
+                newQuizz.questions[i].answers = correctAnswer.concat(incorrecAnswerArray);
+            }
+
         }
 
         if (error) {
-            alert('Informações inseridas invalidas');
+
         }
         else {
             renderQuizzCreationLevelPage(newQuizz.levels.length);
@@ -272,38 +338,74 @@ let newQuizz = {
                 <div class="quis-creation-question-inputs hide ${i === 1 ? 'show' : ''}">
 
                     <div class="quizz-creation-question-pair-input">
+                    <div class='span-div'>
                         <input class="new-quizz-input-field quizz-question-text" type="text"
                             placeholder="Texto da pergunta">
+                            <span class="text-error quizz-title hide">O título do quizz deve ter mais de 20 caracteres</span>
+                    </div>
+                    <div class='span-div'>
                         <input class="new-quizz-input-field quizz-question-background" type="color"
                             placeholder="Cor de fundo da pergunta">
-                    </div>
+                            <span class="text-error quizz-title hide">A cor deve ser no formato Hexadecimal</span>
+                    </div class='span-div'>
+
 
                     <h3 class="quizz-creation-question-title">Resposta Correta</h3>
 
                     <div class="quizz-creation-question-pair-input">
-                        <input class="new-quizz-input-field quizz-correct-awnser" type="text"
-                            placeholder="Resposta correta">
-                        <input class="new-quizz-input-field quizz-correct-img" type="text" placeholder="URL da imagem">
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-correct-awnser" type="text"
+                                placeholder="Resposta correta">
+                                <span class="text-error quizz-title hide">Não pode estar vazio</span>
+                        </div>
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-correct-img" type="text" placeholder="URL da imagem">
+                            <span class="text-error quizz-title hide">Essa URL não é válida, tente outra.</span>
+                        </div>
                     </div>
 
                     <h3 class="quizz-creation-question-title">Respostas Incorretas</h3>
 
                     <div class="quizz-creation-question-pair-input">
-                        <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
-                            placeholder="Resposta incorreta 1">
-                        <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 1">
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
+                                placeholder="Resposta incorreta 1">
+                            <span class="text-error quizz-title hide">Deve haver ao menos uma resposta incorreta</span>
+                        </div>
+                        
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 1">
+                            <div>
+                            <span class="text-error quizz-title hide">Essa URL não é válida, tente outra.</span>
+                        </div>
                     </div>
 
                     <div class="quizz-creation-question-pair-input">
-                        <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
-                            placeholder="Resposta incorreta 2">
-                        <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 2">
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
+                                placeholder="Resposta incorreta 1">
+                            <span class="text-error quizz-title hide">Deve haver ao menos uma resposta incorreta</span>
+                        </div>
+                        
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 1">
+                            <div>
+                            <span class="text-error quizz-title hide">Essa URL não é válida, tente outra.</span>
+                        </div>
                     </div>
 
                     <div class="quizz-creation-question-pair-input">
-                        <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
-                            placeholder="Resposta incorreta 3">
-                        <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 3">
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-incorrect-awser" type="text"
+                                placeholder="Resposta incorreta 1">
+                            <span class="text-error quizz-title hide">Deve haver ao menos uma resposta incorreta</span>
+                        </div>
+                        
+                        <div class='span-div'>
+                            <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem 1">
+                            <div>
+                            <span class="text-error quizz-title hide">Essa URL não é válida, tente outra.</span>
+                        </div>
                     </div>
 
                 </div>
@@ -335,6 +437,17 @@ let newQuizz = {
         window.scrollTo(0, 0);
     }
 
+    function cleanErrorMessage() {
+        document.querySelector('.quizz-title').classList.remove('error-background');
+        document.querySelector('.quizz-title.text-error').classList.add('hide');
+        document.querySelector('.quizz-img').classList.remove('error-background');
+        document.querySelector('.quizz-img.text-error').classList.add('hide');
+        document.querySelector('.quizz-questions').classList.remove('error-background');
+        document.querySelector('.quizz-questions.text-error').classList.add('hide');
+        document.querySelector('.quizz-level').classList.remove('error-background');
+        document.querySelector('.quizz-level.text-error').classList.add('hide');
+    }
+
     function transitionPage_3_1_2() {
         let test = true;
         const title = document.querySelector('.quizz-title').value;
@@ -342,24 +455,31 @@ let newQuizz = {
         const numberQuestions = Number(document.querySelector('.quizz-questions').value);
         const numberLevels = Number(document.querySelector('.quizz-level').value);
 
+        cleanErrorMessage();
+
         if (title.length < 20 || title.length > 60) {
             test = false;
+            errorMessage(document.querySelector('.quizz-title'));
+
         }
 
         if (!validURL(url) || !checkURL(url)) {
             test = false;
+            errorMessage(document.querySelector('.quizz-img'));
         }
 
         if (numberQuestions < 3) {
             test = false;
+            errorMessage(document.querySelector('.quizz-questions'));
         }
 
         if (numberLevels < 2) {
             test = false;
+            errorMessage(document.querySelector('.quizz-level'));
         }
 
         if (!test) {
-            alert('Informações inseridas invalidas');
+
         }
         if (test) {
             newQuizz.title = title;
@@ -390,20 +510,24 @@ let newQuizz = {
 
                 <li class="new-quizz-input">
                     <input class="new-quizz-input-field quizz-title" type="text" placeholder="Título do seu quizz">
+                    <span class="text-error quizz-title hide">O título do quizz deve ter entre 20 e 60 caracteres</span>
                 </li>
 
                 <li class="new-quizz-input url">
                     <input class="new-quizz-input-field quizz-img" type="text" placeholder="URL da imagem do seu quizz">
+                    <span class="text-error quizz-img hide">Essa URL não é válida, tente outra.</span>
                 </li>
 
                 <li class="new-quizz-input numberQuestions">
                     <input class="new-quizz-input-field quizz-questions" type="number"
                         placeholder="Quantidade de perguntas do quizz">
+                        <span class="text-error quizz-questions hide">O quizz deve ter no mínimo 3 perguntas</span>
                 </li>
 
                 <li class="new-quizz-input numberLevels">
                     <input class="new-quizz-input-field quizz-level" type="number"
                         placeholder="Quantidade de níveis do quizz">
+                        <span class="text-error quizz-level hide"> O quizz deve ter no mínimo 2 níveis</span>
                 </li>
 
             </ul>
@@ -420,30 +544,69 @@ let newQuizz = {
 }
 //Screen 1 start here
 {
+    function editQuizz(key, id) {
+        editingQuizz.status = true;
+        editingQuizz.id = id;
+        editingQuizz.key = key;
+
+        renderQuizzCreationPage_3_1();
+    }
+
+    function deleteQuizz(key, id) {
+        if (window.confirm('Tem certeza que quer apagar?')) {
+            axios.delete(`${API_URL}/${id}`, {
+                headers: { 'Secret-Key': key }
+            }).then(renderQuizzListPage_1_1);
+        }
+    }
+
     function quizzListRenderAllQuizzes_1_1() {
         let allQuizzesList = '';
         let userQuizzes = '';
-        let userQuizzesList
+        let userQuizzesList;
+        let userQuizzesIds = [];
+        let userQuizzesKeys = [];
 
         if (!localStorage.getItem('userQuizzes')) {
             userQuizzesList = [];
         }
         else {
-            userQuizzesList = JSON.parse(localStorage.getItem('userQuizzes'))
+            userQuizzesList = JSON.parse(localStorage.getItem('userQuizzes'));
+            for (let i = 0; i < userQuizzesList.length; i++) {
+                userQuizzesIds.push(userQuizzesList[i].id);
+                userQuizzesKeys.push(userQuizzesList[i].key);
+            }
         }
 
         for (let i = 0; i < allQuizzes.length; i++) {
 
-            if (userQuizzesList.includes(allQuizzes[i].id)) {
+            if (userQuizzesIds.includes(allQuizzes[i].id)) {
                 userQuizzes += `
+<<<<<<< HEAD
                 <li class='single-quizz' id = "${allQuizzes[i].id}" onclick="goToScreen2(${allQuizzes[i].id})">
+=======
+                <li class='single-quizz' id = "${allQuizzes[i].id}" >
+                    <div class = 'position-absolute' onclick="goToScreen2(${allQuizzes[i].id})">
+>>>>>>> bonus
                         <figure class = 'single-quizz-figure'>
                             <img class = 'single-quizz-img' src="${allQuizzes[i].image}" alt="Imagem de Fundo do Quizz">
                         </figure>
  
                         <header class = 'single-quizz-header'>
                             <h3 class = 'single-quizz-title'>${allQuizzes[i].title}</h3>
+<<<<<<< HEAD
                         </header>                  
+=======
+                        </header>
+                    </div>
+                    <button class="edit-button" onclick = 'editQuizz("${userQuizzesKeys[userQuizzesIds.indexOf(allQuizzes[i].id)]}",${allQuizzes[i].id})'>
+                        <ion-icon class="trash" name="create-outline"></ion-icon>
+                    </button>
+                    <button class="delete-button" onclick = 'deleteQuizz("${userQuizzesKeys[userQuizzesIds.indexOf(allQuizzes[i].id)]}",${allQuizzes[i].id})'>
+                        <ion-icon class="trash" name="trash"></ion-icon>
+                    </button>
+                    
+>>>>>>> bonus
                 </li>
                 `
 
@@ -480,6 +643,7 @@ let newQuizz = {
         }
 
         document.querySelector('.all-quizzes-list').innerHTML = allQuizzesList;
+        toggleLoadingPage();
     }
 
     function quizzListSaveAllQuizzesAnswer_1_1(answer) {
@@ -490,7 +654,7 @@ let newQuizz = {
     }
 
     function quizzListGetAllQuizzes_1_1() {
-        let promise = axios.get(API_URL);
+        let promise = axios.get(API_URL + '/');
         promise.then(quizzListSaveAllQuizzesAnswer_1_1);
     }
 
@@ -498,7 +662,12 @@ let newQuizz = {
 
         document.querySelector('.style-page').href = './styles/quizzList.css'
         let createNewQuizzArea = '';
-
+        toggleLoadingPage();
+        editingQuizz = {
+            status: false,
+            id: '',
+            key: ''
+        }
         if (!localStorage.getItem('userQuizzes')) {
             createNewQuizzArea = `
                 <article class="create-new-quizz">
@@ -557,10 +726,11 @@ let newQuizz = {
     let questionsHitted;
 
     function goToScreen2(quizzId) {
+        toggleLoadingPage();
         questionsAnswered = 0;
         questionsHitted = 0;
         document.querySelector('.style-page').href = './styles/quizzPage.css';
-        let promise = axios.get(API_URL + quizzId);
+        let promise = axios.get(API_URL + '/' + quizzId);
         promise.then(renderQuizzPage)
     }
 
@@ -666,6 +836,7 @@ let newQuizz = {
           </li>
     `
         }
+        toggleLoadingPage();
     }
     function renderQuizzQuestions() {
         questionsNumber = quizzSelected.questions.length;
